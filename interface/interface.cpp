@@ -1996,7 +1996,7 @@ std::string ima::BaryonScenario::get_scenario(const int i) const
 // ----------------------------------------------------------------------------
 
 
-PYBIND11_MODULE(cosmolike_lsst_y1_interface, m)
+PYBIND11_MODULE(cosmolike_baryons_lsst_y1_interface, m)
 {
   m.doc() = "CosmoLike Interface for LSST-Y1 3x2 Module";
 

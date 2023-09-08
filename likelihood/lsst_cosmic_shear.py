@@ -1,5 +1,5 @@
-from cobaya.likelihoods.lsst_y1._cosmolike_prototype_base import _cosmolike_prototype_base
-import cosmolike_lsst_y1_interface as ci
+from cobaya.likelihoods.baryons_lsst_y1._cosmolike_prototype_base import _cosmolike_prototype_base
+import cosmolike_baryons_lsst_y1_interface as ci
 import numpy as np
 
 class lsst_cosmic_shear(_cosmolike_prototype_base):

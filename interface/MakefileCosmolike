@@ -110,7 +110,7 @@ endif
 LDFLAGS += -lm
 
 all:  shared
-shared: cosmolike_lsst_y1_interface.so
+shared: cosmolike_baryons_lsst_y1_interface.so
 
 CSOURCES += \
 		${ROOTDIR}/external_modules/code/cfftlog/cfftlog.c \
@@ -155,7 +155,7 @@ OBJECTC += \
 $(OBJECTC): $(CSOURCES)
 	$(CC) $(CFLAGS) -fPIC -DCOBAYA_SAMPLER -c $(CSOURCES)
 
-cosmolike_lsst_y1_interface.so: $(OBJECTC) $(CSOURCES) interface.cpp
+cosmolike_baryons_lsst_y1_interface.so: $(OBJECTC) $(CSOURCES) interface.cpp
 	$(CXX) $(CXXFLAGS) -DCOBAYA_SAMPLER -shared -fPIC -o $@ $(OBJECTC) interface.cpp $(LDFLAGS)
 	@rm *.o
 
@@ -163,4 +163,4 @@ test: $(OBJECTC) $(CSOURCES) interface.cpp
 	$(CXX) $(CXXFLAGS) -DCOBAYA_SAMPLER -fPIC -o $@ $(OBJECTC) interface.cpp $(LDFLAGS)
 
 clean:
-	@rm -rf cosmolike_lsst_y1_interface.so cosmolike_lsst_y1_interface.so.dSYM  *.o
+	@rm -rf cosmolike_baryons_lsst_y1_interface.so cosmolike_baryons_lsst_y1_interface.so.dSYM  *.o

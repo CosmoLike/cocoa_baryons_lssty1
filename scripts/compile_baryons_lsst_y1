@@ -21,7 +21,7 @@ fi
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
-cd $ROOTDIR/projects/lsst_y1/interface
+cd $ROOTDIR/projects/baryons_lsst_y1/interface
 
 make -f MakefileCosmolike clean
 

@@ -15,7 +15,7 @@ from getdist import IniFile
 import euclidemu2
 import math
 
-import cosmolike_lsst_y1_interface as ci
+import cosmolike_baryons_lsst_y1_interface as ci
 
 # default is best fit LCDM - just need to be an ok Cosmology
 default_omega_matter = 0.315
