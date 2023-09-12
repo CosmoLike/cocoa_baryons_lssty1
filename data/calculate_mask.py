@@ -99,20 +99,24 @@ for Year in [1]:
     if (Year == 1):
       for i in range(N_LENS): 
         for j in range(N_SRC):
-          if ggl_efficiency[i][j] > ggl_efficiency_cut[0]:
-            γt_mask.append((theta[:-1] > ang_cut(zavg[i])))
-          else:
-            γt_mask.append(np.zeros(N_ANG_BINS))
+          # if ggl_efficiency[i][j] > ggl_efficiency_cut[0]:
+            # γt_mask.append((theta[:-1] > ang_cut(zavg[i])))
+          # else:
+          ### Mask all GGL
+          γt_mask.append(np.zeros(N_ANG_BINS))
     γt_mask = np.hstack(γt_mask) 
 
     #VM w_theta mask -----------------------------------------------------------
-    w_mask = np.hstack([(theta[:-1] > ang_cut(zavg[i])) for i in range(N_LENS)])
+    ## Mask all w_theta
+    # w_mask = np.hstack([(theta[:-1] > ang_cut(zavg[i])) for i in range(N_LENS)])
+    w_mask = np.hstack([(theta[:-1] < 0) for i in range(N_LENS)])
 
     #VM output -----------------------------------------------------------------
     mask = np.hstack([ξp_mask, ξm_mask, γt_mask, w_mask])
     if (Year == 1):
       np.savetxt("LSST_Y" + str(Year) + "_M" + str(mask_choice) +
-        "_GGLOLAP" + str(ggl_efficiency_cut[0]) + ".mask", 
+        "_cosmic_shear"+ ".mask", 
         np.column_stack((np.arange(0,len(mask)), mask)),
         fmt='%d %1.1f')
+
 
