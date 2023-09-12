@@ -5,20 +5,25 @@ stop_at_error: True
 likelihood:
   baryons_lsst_y1.lsst_cosmic_shear:
     path: ./external_modules/data/baryons_lsst_y1
-    data_file: LSST_Y1_M1_GGL0.05.dataset  # 705 non-masked elements  (EE2 delta chi^2 ~ 11.8)
-    #data_file: LSST_Y1_M2_GGL0.05.dataset  # 600 non-masked elements  (EE2 delta chi^2 ~ 6.7)
-    #data_file: LSST_Y1_M3_GGL0.05.dataset  # 495 non-masked elements  (EE2 delta chi^2 ~ 3.2)
-    #data_file: LSST_Y1_M4_GGL0.05.dataset  # 405 non-masked elements  (EE2 delta chi^2 ~ 1.4)
-    #data_file: LSST_Y1_M5_GGL0.05.dataset  # 315 non-masked elements  (EE2 delta chi^2 ~ 0.5)
-    #data_file: LSST_Y1_M6_GGL0.05.dataset  # 780 non-masked elements  (EE2 delta chi^2 ~ 12.96)
+    data_file: LSST_Y1_M1_cosmic_shear.dataset  #Depends on scale cut
+
+    ## Creating PCA
+    baryon_pca_select_simulations: TNG100/HzAGN/mb2/owls_AGN_T80/owls_AGN_T85/BAHAMAS_T76/BAHAMAS_T78/BAHAMAS_T80
+    filename_baryon_pca: "./projects/baryons_lsst_y1/data/pca_M1.txt"  #Depends on scale cut
+
+    ## Contaminate datavector
+    use_baryonic_simulations_for_dv_contamination: True
+    which_baryonic_simulations_for_dv_contamination: Magneticum_WMAP7
     print_datavector: True
-    print_datavector_file: "./projects/baryons_lsst_y1/chains/example1_lsst_y1_theory.modelvector"
+    print_datavector_file: "./projects/baryons_lsst_y1/chains/data_vec/lsst_y1_M1_cont.modelvector" #Depends on scale cut 
+    #print_datavector_file: "./projects/baryons_lsst_y1/chains/data_vec/lsst_y1_M1_theory.modelvector"  # When no contamination
     accuracyboost: 1.0
     integration_accuracy: 0
     kmax_boltzmann: 5.0
+
     # 1 EE2, 2 Halofit
     non_linear_emul: 2
-    
+
 params:
   As_1e9:
     prior:
