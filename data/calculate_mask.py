@@ -114,7 +114,7 @@ for Year in [1]:
     #VM output -----------------------------------------------------------------
     mask = np.hstack([ξp_mask, ξm_mask, γt_mask, w_mask])
     if (Year == 1):
-      np.savetxt("LSST_Y" + str(Year) + "_M" + str(mask_choice) +
+      np.savetxt("masks/LSST_Y" + str(Year) + "_M" + str(mask_choice) +
         "_cosmic_shear"+ ".mask", 
         np.column_stack((np.arange(0,len(mask)), mask)),
         fmt='%d %1.1f')
