@@ -12,6 +12,9 @@
 #SBATCH --partition=high_priority
 #SBATCH --qos=user_qos_timeifler
 
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=pranjalrs@email.arizona.edu
+
 # Clear the environment from any previously loaded modules
 module purge > /dev/null 2>&1
 source ~/.bashrc 
@@ -24,12 +27,14 @@ echo Slurm job ID is $SLURM_JOBID
 echo Number of task is $SLURM_NTASKS
 echo Number of cpus per task is $SLURM_CPUS_PER_TASK
 
+echo Path is $PYTHONPATH
+conda activate cocoapy38
 cd /home/u31/pranjalrs/Github_repos/cocoa/Cocoa/
 source start_cocoa
 source ./projects/baryons_lsst_y1/scripts/start_lsst_y1
 source ./projects/baryons_lsst_y1/scripts/compile_baryons_lsst_y1
-conda activate cocoapy38
-source start_cocoa
+
+echo Path is $PATH
 
 export OMP_PROC_BIND=close
 if [ -n "$SLURM_CPUS_PER_TASK" ]; then
@@ -38,4 +43,4 @@ else
   export OMP_NUM_THREADS=1
 fi
 
-mpirun -n ${SLURM_NTASKS} --oversubscribe --mca btl vader,tcp,self --bind-to core:overload-allowed --map-by numa:pe=${OMP_NUM_THREADS} cobaya-run ./projects/lsst_y1/EXAMPLE_MCMC${SLURM_ARRAY_TASK_ID}.yaml -r
+mpirun -n ${SLURM_NTASKS} --oversubscribe --mca btl vader,tcp,self --bind-to core:overload-allowed --map-by numa:pe=${OMP_NUM_THREADS} cobaya-run ./projects/baryons_lsst_y1/MCMC_Q1.yaml -r
