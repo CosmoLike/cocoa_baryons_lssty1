@@ -181,9 +181,7 @@ params:
   omegan:
     derived: 'lambda omegan2, H0: omegan2/((H0/100)**2)'
     latex: \Omega_\mathrm{\\nu}
-  LSST_BARYON_Q2:
-    value: 0.0
-    latex: Q2_\mathrm{LSST}^2
+
   # WL photo-z errors
   LSST_DZ_S1:
     prior:
@@ -326,11 +324,11 @@ params:
       dist: norm
       loc: 4.5
       scale: 1
-      proposal: 1
+    proposal: 1
     latex: Q1_\mathrm{LSST}^1
   LSST_BARYON_Q2:
     value: 0.0
-    latex: Q1_\mathrm{LSST}^1
+    latex: Q2_\mathrm{LSST}^1
 
 theory:
   camb:
@@ -419,4 +417,4 @@ sampler:
     # ---------------------------------------------------------------------
     Rminus1_single_split: 4
 
-output: ./projects/lsst_y1/chains/
+output: ./projects/lsst_y1/chains/MCMC_Q1/
