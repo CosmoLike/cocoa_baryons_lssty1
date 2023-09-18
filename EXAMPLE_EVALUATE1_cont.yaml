@@ -102,14 +102,7 @@ params:
     latex: w_{0,\mathrm{DE}}+w_{a,\mathrm{DE}}
     drop: true
   w:
-    prior:
-      min: -3
-      max: -0.01
-    ref:
-      dist: norm
-      loc: -0.99
-      scale: 0.05
-    proposal: 0.05
+    value: -1.
     latex: w_{0,\mathrm{DE}}
   tau:
     value: 0.0697186
@@ -198,6 +191,6 @@ sampler:
       LSST_M5: -0.0158096
       LSST_A1_1: 0.606102
       LSST_A1_2: -1.51541
-      w0pwa: -0.9
-      w: -0.9
+      w0pwa: -1.
+      w: -1.
 

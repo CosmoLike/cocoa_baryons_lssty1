@@ -124,14 +124,7 @@ params:
     latex: \Omega_\mathrm{m}
     drop: true
   w:
-    prior:
-      min: -3
-      max: -0.01
-    ref:
-      dist: norm
-      loc: -0.99
-      scale: 0.02
-    proposal: 0.02
+    value: -1.
     latex: w_{0,\mathrm{DE}}
   mnu:
     value: 0.06
@@ -388,7 +381,7 @@ sampler:
     blocking:
       - [1,
           [
-            As_1e9, ns, H0, omegab, omegam, w 
+            As_1e9, ns, H0, omegab, omegam 
           ]
         ]
       - [6,
