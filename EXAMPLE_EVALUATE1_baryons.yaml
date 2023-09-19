@@ -2,7 +2,7 @@ timing: True
 debug: False
 stop_at_error: True
 
-output: ./projects/baryons_lsst_y1/chains/get_data_vector/LSST_Y1_M1_cont/EXAMPLE_EVALUATE1
+output: ./projects/baryons_lsst_y1/chains/get_data_vector/LSST_Y1_M1_baryons/EXAMPLE_EVALUATE1
 
 likelihood:
   baryons_lsst_y1.lsst_cosmic_shear:
@@ -11,14 +11,14 @@ likelihood:
 
     ## Creating PCA
     create_baryon_pca: False
-    baryon_pca_select_simulations: TNG100/HzAGN/mb2/owls_AGN_T80/owls_AGN_T85/BAHAMAS_T76/BAHAMAS_T78/BAHAMAS_T80
+    baryon_pca_select_simulations: TNG100/HzAGN/mb2/eagle/illustris/owls_AGN_T80/owls_AGN_T85/BAHAMAS_T76/BAHAMAS_T78/BAHAMAS_T80
     filename_baryon_pca: "./projects/baryons_lsst_y1/data/pca/pca_M1.txt"  #Depends on scale cut
 
     ## Contaminate datavector
     use_baryonic_simulations_for_dv_contamination: True
-    which_baryonic_simulations_for_dv_contamination: Magneticum_WMAP7
+    which_baryonic_simulations_for_dv_contamination: TNG100 #Magneticum_WMAP7
     print_datavector: True
-    print_datavector_file: "./projects/baryons_lsst_y1/data/data_vector/lsst_y1_M1_cont.modelvector" #Depends on scale cut 
+    print_datavector_file: "./projects/baryons_lsst_y1/data/data_vector/lsst_y1_M1_TNG100.modelvector" #Depends on scale cut 
     accuracyboost: 1.0
     integration_accuracy: 0
     kmax_boltzmann: 5.0
@@ -82,23 +82,9 @@ params:
     latex: \Omega_\mathrm{m}
     drop: true
   mnu:
-    prior:
-      min: 0.06
-      max: 0.6
-    ref:
-      dist: norm
-      loc: 0.25
-      scale: 0.1
-    proposal: 0.05
+    value: 0.
   w0pwa:
-    prior:
-      min: -5 
-      max: -0.01
-    ref:
-      dist: norm
-      loc: -0.99
-      scale: 0.05
-    proposal: 0.05
+    value: -1.
     latex: w_{0,\mathrm{DE}}+w_{a,\mathrm{DE}}
     drop: true
   w:
@@ -173,12 +159,11 @@ sampler:
   evaluate:
     N: 1
     override:
-      As_1e9: 2.1
-      ns: 0.96605
-      H0: 67.32
-      omegab: 0.04
-      omegam: 0.3
-      mnu: 0.06
+      As_1e9: 2.1825
+      ns: 0.963
+      H0: 70.4
+      omegab: 0.0456
+      omegam: 0.272
       LSST_DZ_S1: 0.0414632
       LSST_DZ_S2: 0.00147332
       LSST_DZ_S3: 0.0237035
@@ -191,6 +176,3 @@ sampler:
       LSST_M5: -0.0158096
       LSST_A1_1: 0.606102
       LSST_A1_2: -1.51541
-      w0pwa: -1.
-      w: -1.
-

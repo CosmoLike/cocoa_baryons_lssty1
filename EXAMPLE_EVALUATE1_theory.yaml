@@ -82,23 +82,9 @@ params:
     latex: \Omega_\mathrm{m}
     drop: true
   mnu:
-    prior:
-      min: 0.06
-      max: 0.6
-    ref:
-      dist: norm
-      loc: 0.25
-      scale: 0.1
-    proposal: 0.05
+    value: 0.
   w0pwa:
-    prior:
-      min: -5 
-      max: -0.01
-    ref:
-      dist: norm
-      loc: -0.99
-      scale: 0.05
-    proposal: 0.05
+    value: -1.
     latex: w_{0,\mathrm{DE}}+w_{a,\mathrm{DE}}
     drop: true
   w:
@@ -180,7 +166,6 @@ sampler:
       H0: 70.4
       omegab: 0.0456
       omegam: 0.272
-      mnu: 0.00
       LSST_DZ_S1: 0.0414632
       LSST_DZ_S2: 0.00147332
       LSST_DZ_S3: 0.0237035
@@ -193,5 +178,3 @@ sampler:
       LSST_M5: -0.0158096
       LSST_A1_1: 0.606102
       LSST_A1_2: -1.51541
-      w0pwa: -1.
-      w: -1.

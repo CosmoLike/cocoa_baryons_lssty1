@@ -27,7 +27,6 @@ likelihood:
 #    H0: 70.4
 #    omegab: 0.0456
 #    omegam: 0.272
-#    mnu: 0.06
 #    LSST_DZ_S1: 0.0414632
 #    LSST_DZ_S2: 0.00147332
 #    LSST_DZ_S3: 0.0237035
