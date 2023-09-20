@@ -313,8 +313,8 @@ params:
   # Baryon PCA parameters
   LSST_BARYON_Q1:
     prior:
-      min: -3
-      max: 12
+      min: -10
+      max: 30
     ref:
       dist: norm
       loc: 4.5
@@ -322,8 +322,26 @@ params:
     proposal: 1
     latex: Q1_\mathrm{LSST}^1
   LSST_BARYON_Q2:
-    value: 0.0
+    prior:
+      min: -10
+      max: 10
+    ref:
+      dist: norm
+      loc: 4.5
+      scale: 1
+    proposal: 1
     latex: Q2_\mathrm{LSST}^1
+  LSST_BARYON_Q2:
+    prior:
+      min: -10
+      max: 10
+    ref:
+      dist: norm
+      loc: 4.5
+      scale: 1
+    proposal: 1
+    latex: Q3_\mathrm{LSST}^1
+
 
 theory:
   camb:
