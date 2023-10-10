@@ -20,53 +20,6 @@ likelihood:
     # 1 EE2, 2 Halofit
     non_linear_emul: 2
 
-# IN THIS EXAMPLE, WE ASSUMED THE DATA VECTOR WERE CREATED W/ THE FOLLOWING 
-# PARAMETERS (WE USED HALOFIT TO CREATE THE DATAVECTOR)
-#    As_1e9: 2.1825
-#    ns: 0.963
-#    H0: 70.4
-#    omegab: 0.0456
-#    omegam: 0.272
-#    LSST_DZ_S1: 0.0414632
-#    LSST_DZ_S2: 0.00147332
-#    LSST_DZ_S3: 0.0237035
-#    LSST_DZ_S4: -0.0773436
-#    LSST_DZ_S5: -8.67127e-05
-#    LSST_M1: 0.0191832
-#    LSST_M2: -0.0431752
-#    LSST_M3: -0.034961
-#    LSST_M4: -0.0158096
-#    LSST_M5: -0.0158096
-#    LSST_A1_1: 0.606102
-#    LSST_A1_2: -1.51541
-#    LSST_DZ_L1: 0.00457604
-#    LSST_DZ_L2: 0.000309875
-#    LSST_DZ_L3: 0.00855907
-#    LSST_DZ_L4: -0.00316269
-#    LSST_DZ_L5: -0.0146753
-#    LSST_B1_1: 1.72716
-#    LSST_B1_2: 1.65168
-#    LSST_B1_3: 1.61423
-#    LSST_B1_4: 1.92886
-#    LSST_B1_5: 2.11633
-#    w0pwa: -0.9 (wa = 0)
-#    w: -0.9
-#  LSST_BMAG_1:
-#    value: 0.0
-#    latex: b_\mathrm{BMAG-LSST}^1
-#  LSST_BMAG_2:
-#    value: 0.0
-#    latex: b_\mathrm{BMAG-LSST}^2
-#  LSST_BMAG_3:
-#    value: 0.0
-#    latex: b_\mathrm{BMAG-LSST}^3
-#  LSST_BMAG_4:
-#    value: 0.0
-#    latex: b_\mathrm{BMAG-LSST}^4
-#  LSST_BMAG_5:
-#    value: 0.0
-#    latex: b_\mathrm{BMAG-LSST}^5
-
 params:
   As_1e9:
     prior:
@@ -149,6 +102,9 @@ params:
   omegach2:
     value: 'lambda omegam, omegab, mnu, H0: (omegam-omegab)*(H0/100)**2-(mnu*(3.046/3)**0.75)/94.0708'
     latex: \Omega_\mathrm{c} h^2
+  wa:
+    value: 'lambda w0pwa, w: w0pwa - w'
+    latex: w_{a,\mathrm{DE}}
   omegal:
     latex: \Omega_\Lambda
   omegamh2:
@@ -331,7 +287,7 @@ params:
       scale: 1
     proposal: 1
     latex: Q2_\mathrm{LSST}^1
-  LSST_BARYON_Q2:
+  LSST_BARYON_Q3:
     prior:
       min: -10
       max: 10
@@ -430,4 +386,4 @@ sampler:
     # ---------------------------------------------------------------------
     Rminus1_single_split: 4
 
-output: ./projects/lsst_y1/chains/MCMC_Q1/
+output: ./projects/baryons_lsst_y1/chains/MCMC/MCMC_Magneticum_WMAP7
