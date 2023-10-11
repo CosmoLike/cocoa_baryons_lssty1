@@ -1,4 +1,4 @@
-data_file = data_vector/lsst_y1_M1_Magneticum_WMAP7.modelvector
+data_file = data_vector/lsst_y1_Magneticum_WMAP7.modelvector
 cov_file = cov_lsst_y1
 mask_file = ones_cosmic_shear.mask
 nz_lens_file = lens_LSSTY1.nz 
@@ -10,4 +10,4 @@ n_theta = 26
 IA_model = 6
 theta_min_arcmin = 2.5
 theta_max_arcmin = 900.
-baryon_pca_file = pca_all.txt
+baryon_pca_file = pca/pca.txt
