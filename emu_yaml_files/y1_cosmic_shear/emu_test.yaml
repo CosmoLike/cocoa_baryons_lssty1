@@ -69,7 +69,7 @@ params:
     value: -1.
     latex: w_{0,\mathrm{DE}}
   mnu:
-    value: 0.0
+    value: 0.06
   tau:
     value: 0.0697186
     latex: \tau_\mathrm{reio}
