@@ -30,8 +30,8 @@ export OMP_NUM_THREADS=1
 
 for N in {0..3}
 do
-    mpirun -n 80 --mca btl tcp,self $PYTHON3 calculate_dv.py $CONFIGFILE $N
-    $PYTHON3 emu_y1_cosmic_shear.py $CONFIGFILE $N 1 0
+    mpirun -n 80 --mca btl tcp,self $PYTHON3 projects/baryons_lsst_y1/emu_cocoa_files/calculate_dv.py $CONFIGFILE $N
+    $PYTHON3 projects/baryons_lsst_y1/emu_cocoa_files/emu_y1_cosmic_shear.py $CONFIGFILE $N 1 0
 done
 N=3
 
