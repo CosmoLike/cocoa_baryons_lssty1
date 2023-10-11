@@ -82,7 +82,7 @@ params:
     latex: \Omega_\mathrm{m}
     drop: true
   mnu:
-    value: 0.
+    value: 0.06
   w0pwa:
     value: -1.
     latex: w_{0,\mathrm{DE}}+w_{a,\mathrm{DE}}
