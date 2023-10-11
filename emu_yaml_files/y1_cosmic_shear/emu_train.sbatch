@@ -19,11 +19,13 @@ echo Directory is `pwd`
 echo Slurm job NAME is $SLURM_JOB_NAME
 echo Slurm job ID is $SLURM_JOBID
 
-cd /home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/
+conda activate cocoapy38
+cd /home/u31/pranjalrs/Github_repos/cocoa/Cocoa/
 source start_cocoa
-conda activate /home/u7/ssarmabo/softs/miniconda3/envs/cocoa
+source ./projects/baryons_lsst_y1/scripts/start_lsst_y1
+source ./projects/baryons_lsst_y1/scripts/compile_baryons_lsst_y1
 
-CONFIGFILE=./projects/lsst_y1/yaml_files/y1_cosmic_shear/emu_test.yaml
+CONFIGFILE=./projects/baryons_lsst_y1/emu_yaml_files/y1_cosmic_shear/emu_test.yaml
 export OMP_NUM_THREADS=1
 
 for N in {0..3}
