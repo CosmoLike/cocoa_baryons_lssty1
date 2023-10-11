@@ -6,6 +6,17 @@ likelihood:
   baryons_lsst_y1.lsst_cosmic_shear:
     path: ./external_modules/data/baryons_lsst_y1
     data_file: LSST_Y1_emu_cosmic_shear.dataset
+    create_baryon_pca: False
+
+    ## Contaminate datavector
+    use_baryonic_simulations_for_dv_contamination: False
+    print_datavector: False
+    accuracyboost: 1.0
+    integration_accuracy: 0
+    kmax_boltzmann: 5.0
+
+    # 1 EE2, 2 Halofit
+    non_linear_emul: 2
 
 params:
   As_1e9:
@@ -89,6 +100,9 @@ params:
   omegach2:
     value: 'lambda omegam, omegab, mnu, H0: (omegam-omegab)*(H0/100)**2-(mnu*(3.046/3)**0.75)/94.0708'
     latex: \Omega_\mathrm{c} h^2
+  wa:
+    value: 'lambda w0pwa, w: w0pwa - w'
+    latex: w_{a,\mathrm{DE}}
   omegal:
     latex: \Omega_\Lambda
   omegamh2:
