@@ -196,8 +196,8 @@ params:
       max:  5
     ref:
       dist: norm
-      loc: 0.7
-      scale: 0.5
+      loc: 0.5
+      scale: 0.1
     proposal: 0.5
     latex: A_\mathrm{1-IA,LSST}^1
   LSST_A1_2:
@@ -207,7 +207,7 @@ params:
     ref:
       dist: norm
       loc: 0.0
-      scale: 0.5
+      scale: 0.1
     proposal: 0.5
   # Shear calibration parameters
   LSST_M1:
