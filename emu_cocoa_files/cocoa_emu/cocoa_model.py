@@ -3,7 +3,19 @@ import numpy as np
 from cobaya.yaml import yaml_load_file
 from cobaya.input import update_info
 from cobaya.model import Model
-from cobaya.conventions import kinds, _timing, _params, _prior, _packages_path
+#from cobaya.conventions import kinds, _timing, _params, _prior, _packages_path
+from cobaya.conventions import kinds
+
+_timing = "timing"
+_params = "params"
+_prior = "prior"
+_packages_path = "packages_path"
+
+## Hack
+from collections import namedtuple
+ComponentKinds = namedtuple('ComponentKinds', kinds)
+kinds = ComponentKinds(*ComponentKinds._fields)
+
 
 def get_model(yaml_file):
     info  = yaml_load_file(yaml_file)
@@ -27,8 +39,8 @@ class CocoaModel:
                                                  self.model._params_of_dependencies):
             depend_list = [input_params[p] for p in param_dep]
             params = {p: input_params[p] for p in component.input_params}
-            compute_success = component.check_cache_and_compute(want_derived=False,
-                                         dependency_params=depend_list, cached=False, **params)
+            compute_success = component.check_cache_and_compute(params, want_derived=False,
+                                         dependency_params=depend_list, cached=False)
         if baryon_scenario is None:
             data_vector = likelihood.get_datavector(**input_params)
         else:
