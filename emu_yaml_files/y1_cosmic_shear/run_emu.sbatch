@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#SBATCH --job-name=emu_train_y1
-#SBATCH --output=emu_train_y1.out
+#SBATCH --job-name=emu_run_y1
+#SBATCH --output=emu_run_y1.out
 #SBATCH --nodes=1
 #SBATCH --exclusive
 #SBATCH --partition=high_priority
