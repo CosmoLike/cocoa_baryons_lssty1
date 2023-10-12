@@ -7,7 +7,7 @@
 #SBATCH --partition=high_priority
 #SBATCH --qos=user_qos_timeifler
 #SBATCH --account=timeifler
-#SBATCH --time=20:00:00
+#SBATCH --time=4:00:00
 
 # Clear the environment from any previously loaded modules
 module purge > /dev/null 2>&1
@@ -29,4 +29,4 @@ CONFIGFILE=./projects/baryons_lsst_y1/emu_yaml_files/y1_cosmic_shear/emu_test.ya
 export OMP_NUM_THREADS=1
 
 N=3
-$PYTHON3 emu_y1_cosmic_shear.py --config $CONFIGFILE -N $N --temper 0 --load_emu 1
+$PYTHON3 projects/baryons_lsst_y1/emu_cocoa_files/emu_y1_cosmic_shear.py --config $CONFIGFILE -N $N --temper 0 --load_emu 1
