@@ -1,3 +1,4 @@
+import argparse
 import sys
 import os
 import numpy as np
@@ -9,14 +10,23 @@ import emcee
 
 from multiprocessing import Pool
 
-configfile = sys.argv[1]
-n          = int(sys.argv[2])
+parser = argparse.ArgumentParser()
+parser.add_argument('--config', type=str)
+parser.add_argument('-N')
+parser.add_argument('--temper', type=int)
+parser.add_argument('--save_emu', type=int)
+parser.add_argument('--load_emu', type=int)
+
+args = parser.parse_args()
+
+configfile = args.config
+n          = args.N
 
 #==============================================
 temper_schedule = [0.02, 0.1, 0.2, 0.4, 0.6, 0.7, 0.9, 0.9]
 
 try:
-    temper = (int(sys.argv[3])==1)
+    temper = (int(args.temper)==1)
 except:
     temper = False
 
@@ -28,10 +38,14 @@ else:
 print("temper_val: %2.3f"%(temper_val))
 
 try:
-    save_emu = (int(sys.argv[4])==1)
+    save_emu = (int(args.save_emu)==1)
 except:
     save_emu = False
     
+try:
+    load_emu = (int(args.load_emu)==1)
+except:
+    load_emu = False
 #==============================================
 
 config = Config(configfile)
@@ -79,24 +93,33 @@ dv_w   = np.zeros(N_w)
 
 print("N_xi: %d"%(N_xi))
 
-print("=======================================")
-print("Training xi_plus emulator....")
 emu_xi_plus = NNEmulator(config.n_dim, N_xi, config.dv_fid[:N_xi], config.dv_std[:N_xi], config.mask[:N_xi], config.nn_model)
-emu_xi_plus.train(torch.Tensor(train_samples), torch.Tensor(train_data_vectors[:,:N_xi]),\
-              batch_size=config.batch_size, n_epochs=config.n_epochs)
-print("=======================================")
-print("=======================================")
-print("Training xi_minus emulator....")
 emu_xi_minus = NNEmulator(config.n_dim, N_xi, config.dv_fid[N_xi:2*N_xi], config.dv_std[N_xi:2*N_xi], config.mask[N_xi:2*N_xi], config.nn_model)
-emu_xi_minus.train(torch.Tensor(train_samples), torch.Tensor(train_data_vectors[:,N_xi:2*N_xi]),\
-              batch_size=config.batch_size, n_epochs=config.n_epochs)
-print("=======================================")
 
-if(save_emu):
-    emu_xi_plus.save(config.savedir + '/xi_p_%d'%(n))
-    emu_xi_minus.save(config.savedir + '/xi_m_%d'%(n))
+if load_emu is False:
+    print("=======================================")
+    print("Training xi_plus emulator....")
+    emu_xi_plus.train(torch.Tensor(train_samples), torch.Tensor(train_data_vectors[:,:N_xi]),\
+                batch_size=config.batch_size, n_epochs=config.n_epochs)
+    print("=======================================")
+    print("=======================================")
+    print("Training xi_minus emulator....")
+    emu_xi_minus.train(torch.Tensor(train_samples), torch.Tensor(train_data_vectors[:,N_xi:2*N_xi]),\
+                batch_size=config.batch_size, n_epochs=config.n_epochs)
+    print("=======================================")
+
+    if(save_emu):
+        emu_xi_plus.save(config.savedir + '/xi_p_%d'%(n))
+        emu_xi_minus.save(config.savedir + '/xi_m_%d'%(n))
+
+else:
+    print("=======================================")
+    print("Loading xi_plus and xi_minus emulator....")
+    emu_xi_plus.load(config.savedir + '/xi_p_%d'%(n))
+    emu_xi_minus.load(config.savedir + '/xi_m_%d'%(n))
 #==============================================
 os.environ["OMP_NUM_THREADS"] = "1"
+
 
 emu_sampler = EmuSampler(full_emu, config)
 pos0 = emu_sampler.get_starting_pos()
