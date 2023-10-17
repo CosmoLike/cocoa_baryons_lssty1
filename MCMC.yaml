@@ -5,7 +5,7 @@ stop_at_error: False
 likelihood:
   baryons_lsst_y1.lsst_cosmic_shear:
     path: ./external_modules/data/baryons_lsst_y1
-    data_file: LSST_Y1_M1_cosmic_shear.dataset  #Depends on scale cut
+    data_file: LSST_Y1_cosmic_shear.dataset  #Depends on scale cut
 
     ## Creating PCA
     create_baryon_pca: False 
