@@ -9,10 +9,13 @@ from cocoa_emu.sampling import EmuSampler
 import emcee
 
 from multiprocessing import Pool
+from schwimmbad import MPIPool
+
+#import ipdb
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--config', type=str)
-parser.add_argument('-N')
+parser.add_argument('-N', type=int)
 parser.add_argument('--temper', type=int)
 parser.add_argument('--save_emu', type=int)
 parser.add_argument('--load_emu', type=int)
@@ -20,7 +23,7 @@ parser.add_argument('--load_emu', type=int)
 args = parser.parse_args()
 
 configfile = args.config
-n          = args.N
+n          = int(args.N)
 
 #==============================================
 temper_schedule = [0.02, 0.1, 0.2, 0.4, 0.6, 0.7, 0.9, 0.9]
@@ -159,17 +162,25 @@ def ln_prob(theta, temper_val=1.):
 #==============================================    
 print("temper_val: %2.3f"%(temper_val))
 
-with Pool() as pool:
-    sampler = emcee.EnsembleSampler(config.n_emcee_walkers, emu_sampler.n_sample_dims, 
-                                        ln_prob, args=(temper_val,), pool=pool)
+#ipdb.set_trace()
+print('Starting MCMC now...')
+#with Pool() as pool:
+
+with MPIPool() as pool:
+    if not pool.is_master():
+        pool.wait()
+        sys.exit(0)
+    sampler = emcee.EnsembleSampler(config.n_emcee_walkers, emu_sampler.n_sample_dims, ln_prob, args=(temper_val,), pool=pool)
     sampler.run_mcmc(pos0, config.n_mcmc, progress=True)
 
 samples = sampler.chain[:,config.n_burn_in::config.n_thin].reshape((-1, emu_sampler.n_sample_dims))
 
 if(temper):
-    select_indices = np.random.choice(np.arange(len(samples)), replace=False, size=config.n_resample)
+    select_indices = np.random.choice(np.arange(len(samples)), replace=True, size=config.n_resample)
     next_training_samples = samples[select_indices,:-(config.n_fast_pars)]
     np.save(config.savedir + '/train_samples_%d.npy'%(n+1), next_training_samples)
+    print('Saving training samples')
+
 else:
     np.save(config.savedir + '/' + config.chainname + '_%d.npy'%(n), samples)
 
