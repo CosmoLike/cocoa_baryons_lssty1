@@ -65,6 +65,7 @@ emu_xi_minus.load(config.savedir + '/xi_m_%d'%(n))
 os.environ["OMP_NUM_THREADS"] = "1"
 
 
+full_emu = NNEmulator(config.n_dim, config.output_dims, config.dv_fid, config.dv_std, config.mask_ones, config.nn_model)
 emu_sampler = EmuSampler(full_emu, config)
 pos0 = emu_sampler.get_starting_pos()
 #==============================================
