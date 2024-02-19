@@ -159,7 +159,7 @@ sampler:
   evaluate:
     N: 1
     override:
-      As_1e9: 
+      As_1e9: 3.2096052
       ns: 0.963
       H0: 67.6
       omegab: .0421
