@@ -18,7 +18,7 @@ likelihood:
     use_baryonic_simulations_for_dv_contamination: True
     which_baryonic_simulations_for_dv_contamination: Magneticum_C3
     print_datavector: True
-    print_datavector_file: "./projects/baryons_lsst_y1/data/data_vector/lsst_y1_Magneticum_C3.modelvector" #Depends on scale cut 
+    print_datavector_file: "./projects/baryons_lsst_y1/data/data_vector/lsst_y1_baryons_Magneticum_C3.modelvector" #Depends on scale cut 
     accuracyboost: 1.0
     integration_accuracy: 0
     kmax_boltzmann: 5.0
