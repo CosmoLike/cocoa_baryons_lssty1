@@ -159,10 +159,10 @@ sampler:
   evaluate:
     N: 1
     override:
-      As_1e9: 
+      As_1e9: 2.24751
       ns: 0.963
       H0: 67.0
-      omegab: 0.413
+      omegab: 0.0413
       omegam: 0.232
       LSST_DZ_S1: 0.0
       LSST_DZ_S2: 0.0
