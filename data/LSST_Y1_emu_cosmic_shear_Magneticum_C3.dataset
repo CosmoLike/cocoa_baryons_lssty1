@@ -1,4 +1,4 @@
-data_file = data_vector/lsst_y1_baryons_Magneticum_C9.modelvector
+data_file = data_vector/lsst_y1_baryons_Magneticum_C3.modelvector
 cov_file = cov_lsst_y1
 mask_file = ones_cosmic_shear.mask
 nz_lens_file = lens_LSSTY1.nz 
