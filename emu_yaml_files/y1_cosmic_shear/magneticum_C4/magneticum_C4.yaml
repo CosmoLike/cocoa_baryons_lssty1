@@ -5,7 +5,7 @@ stop_at_error: False
 likelihood:
   baryons_lsst_y1.lsst_cosmic_shear:
     path: ./external_modules/data/baryons_lsst_y1
-    data_file: LSST_Y1_emu_cosmic_shear_Magneticum_C1.dataset
+    data_file: LSST_Y1_emu_cosmic_shear_Magneticum_C4.dataset
     create_baryon_pca: False
 
     ## Contaminate datavector
@@ -270,7 +270,7 @@ theory:
 emulator:
   probe: cosmic_shear
   io:
-      savedir: ./projects/baryons_lsst_y1/emu_yaml_files/y1_cosmic_shear/magneticum_C1/emu_output
+      savedir: ./projects/baryons_lsst_y1/emu_yaml_files/y1_cosmic_shear/magneticum_C4/emu_output
       save_train_data: true
       save_intermediate_model: true
   shear_calib:
