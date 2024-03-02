@@ -5,3 +5,5 @@
 *.cfg
 chains/
 emu_yaml_files/y1_cosmic_shear/magneticum*/emu_output
+emu_yaml_files/y1_cosmic_shear/output
+
