@@ -4,3 +4,4 @@
 *.pyo
 *.cfg
 chains/
+emu_yaml_files/y1_cosmic_shear/magneticum*/emu_output

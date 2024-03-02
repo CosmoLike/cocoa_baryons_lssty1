@@ -32,7 +32,6 @@ conda activate cocoapy38
 cd /home/u31/pranjalrs/Github_repos/cocoa/Cocoa/
 source start_cocoa
 source ./projects/baryons_lsst_y1/scripts/start_lsst_y1
-source ./projects/baryons_lsst_y1/scripts/compile_baryons_lsst_y1
 
 echo Path is $PATH
 
