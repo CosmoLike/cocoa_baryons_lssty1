@@ -271,6 +271,7 @@ emulator:
   probe: cosmic_shear
   io:
       savedir: ./projects/baryons_lsst_y1/emu_yaml_files/y1_cosmic_shear/magneticum_C10/emu_output
+      chainname: emu_chain
       save_train_data: true
       save_intermediate_model: true
   shear_calib:
@@ -297,9 +298,9 @@ emulator:
       n_epochs: 50
   sampling:
       scalecut_mask: ./projects/baryons_lsst_y1/data/masks/LSST_Y1_cosmic_shear.mask
-      n_mcmc: 60000
+      n_mcmc: 120000
       n_emcee_walkers: 100
-      n_burn_in: 50000
+      n_burn_in: 80000
       n_thin: 10
       temper0: 0.02
       temper_increment: 0.05
