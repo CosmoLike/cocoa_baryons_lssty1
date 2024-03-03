@@ -1,11 +1,7 @@
 import sys
 from mpi4py import MPI
 import numpy as np
-import torch
 from cocoa_emu import Config, get_lhs_params_list, get_params_list, CocoaModel
-from cocoa_emu.emulator import NNEmulator, GPEmulator
-from cocoa_emu.sampling import EmuSampler
-import emcee
 
 comm = MPI.COMM_WORLD
 size = comm.Get_size()

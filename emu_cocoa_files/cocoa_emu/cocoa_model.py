@@ -3,7 +3,6 @@ import numpy as np
 from cobaya.yaml import yaml_load_file
 from cobaya.input import update_info
 from cobaya.model import Model
-#from cobaya.conventions import kinds, _timing, _params, _prior, _packages_path
 from cobaya.conventions import kinds
 
 _timing = "timing"
