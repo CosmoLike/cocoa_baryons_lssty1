@@ -5,7 +5,7 @@ stop_at_error: False
 likelihood:
   baryons_lsst_y1.lsst_cosmic_shear:
     path: ./external_modules/data/baryons_lsst_y1
-    data_file: LSST_Y1_emu_cosmic_shear_Magneticum_WMAP7.dataset
+    data_file: LSST_Y1_emu_cosmic_shear_Magneticum_WMAP7_M1.dataset
     create_baryon_pca: False
 
     ## Contaminate datavector
@@ -271,7 +271,7 @@ emulator:
   probe: cosmic_shear
   io:
       savedir: ./projects/baryons_lsst_y1/emu_yaml_files/y1_cosmic_shear/magneticum_WMAP7/emu_output
-      chainname: emu_chain
+      chainname: chain_M1
       save_train_data: true
       save_intermediate_model: true
   shear_calib:
@@ -289,7 +289,7 @@ emulator:
   training:
       emu_type: nn
       nn_model: 0
-      dv_fid: ./projects/baryons_lsst_y1/data/lsst_y1_theory.modelvector
+      dv_fid: ./projects/baryons_lsst_y1/data/data_vector/lsst_y1_theory_Magneticum_WMAP7.modelvector
       chi_sq_cut: 1e+5
       n_train_iter: 4
       n_lhs: 16000
@@ -298,9 +298,9 @@ emulator:
       n_epochs: 50
   sampling:
       scalecut_mask: ./projects/baryons_lsst_y1/data/masks/LSST_Y1_cosmic_shear.mask
-      n_mcmc: 120000
+      n_mcmc: 100000
       n_emcee_walkers: 100
-      n_burn_in: 80000
+      n_burn_in: 90000
       n_thin: 10
       temper0: 0.02
       temper_increment: 0.05
