@@ -297,7 +297,7 @@ emulator:
       batch_size: 80
       n_epochs: 50
   sampling:
-      scalecut_mask: ./projects/baryons_lsst_y1/data/masks/LSST_Y1_cosmic_shear.mask
+      scalecut_mask: ./projects/baryons_lsst_y1/data/masks/LSST_Y1_M2_cosmic_shear.mask
       n_mcmc: 100000
       n_emcee_walkers: 100
       n_burn_in: 90000
