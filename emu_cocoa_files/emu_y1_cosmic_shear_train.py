@@ -95,5 +95,5 @@ emu_xi_minus.train(torch.Tensor(train_samples), torch.Tensor(train_data_vectors[
 print("=======================================")
 
 
-emu_xi_plus.save(config.savedir + '/xi_p_%d'%(n))
-emu_xi_minus.save(config.savedir + '/xi_m_%d'%(n))
+emu_xi_plus.save(config.emudir + '/xi_p_%d'%(n))
+emu_xi_minus.save(config.emudir + '/xi_m_%d'%(n))

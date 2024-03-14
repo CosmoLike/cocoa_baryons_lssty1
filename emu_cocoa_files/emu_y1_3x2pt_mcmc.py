@@ -61,8 +61,8 @@ emu_w = emu_tools.get_NN_emulator('w', config)
 
 print("=======================================")
 print("Loading xi_plus and xi_minus emulator....")
-emu_xi_plus.load(config.savedir + '/xi_p_%d'%(n))
-emu_xi_minus.load(config.savedir + '/xi_m_%d'%(n))
+emu_xi_plus.load(config.emudir + '/xi_p_%d'%(n))
+emu_xi_minus.load(config.emudir + '/xi_m_%d'%(n))
 #==============================================
 os.environ["OMP_NUM_THREADS"] = "1"
 
@@ -125,7 +125,7 @@ samples = sampler.chain[:,config.n_burn_in::config.n_thin].reshape((-1, emu_samp
 if(temper):
     select_indices = np.random.choice(np.arange(len(samples)), replace=True, size=config.n_resample)
     next_training_samples = samples[select_indices,:-(config.n_fast_pars)]
-    np.save(config.savedir + '/train_samples_%d.npy'%(n+1), next_training_samples)
+    np.save(config.emudir + '/train_samples_%d.npy'%(n+1), next_training_samples)
     print('Saving training samples')
 
 else:
