@@ -1,12 +1,12 @@
-
 import argparse
 import sys
 import os
 import numpy as np
 import torch
-from cocoa_emu import Config, get_lhs_params_list, get_params_list, CocoaModel
+from cocoa_emu import Config
 from cocoa_emu.emulator import NNEmulator
 from cocoa_emu.sampling import EmuSampler
+import emu_tools
 
 import emcee
 from schwimmbad import MPIPool
@@ -50,13 +50,15 @@ N_xi  = int((N_Z_BINS * (N_Z_BINS + 1)) // 2 * N_angular_bins)
 N_ggl = int((N_Z_BINS * N_Z_BINS - len(ggl_exclude)) * N_angular_bins)
 N_w   = int(N_Z_BINS * N_angular_bins)
 
-dv_ggl = np.zeros(N_ggl)
-dv_w   = np.zeros(N_w)
 
 print("N_xi: %d"%(N_xi))
 
-emu_xi_plus = NNEmulator(config.n_dim, N_xi, config.dv_fid[:N_xi], config.dv_std[:N_xi], config.mask[:N_xi], config.nn_model)
-emu_xi_minus = NNEmulator(config.n_dim, N_xi, config.dv_fid[N_xi:2*N_xi], config.dv_std[N_xi:2*N_xi], config.mask[N_xi:2*N_xi], config.nn_model)
+emu_xi_plus = emu_tools.get_NN_emulator('xi_plus', config)
+emu_xi_minus = emu_tools.get_NN_emulator('xi_minus', config)
+
+emu_ggl = emu_tools.get_NN_emulator('ggl', config)
+emu_w = emu_tools.get_NN_emulator('w', config)
+
 print("=======================================")
 print("Loading xi_plus and xi_minus emulator....")
 emu_xi_plus.load(config.savedir + '/xi_p_%d'%(n))
@@ -82,6 +84,9 @@ def get_data_vector_emu(theta):
     dv_xi_plus  = compute_datavector(theta_emu, emu_xi_plus)
     dv_xi_minus = compute_datavector(theta_emu, emu_xi_minus)
     
+    dv_ggl = compute_datavector(theta_emu, emu_ggl)
+    dv_w   = compute_datavector(theta_emu, emu_w)
+
     datavector  = np.hstack([dv_xi_plus, dv_xi_minus, dv_ggl, dv_w])
     # ============== Add shear calibration bias ======================
     m_shear_theta = theta[self.n_sample_dims-(self.n_pcas_baryon + self.source_ntomo):
