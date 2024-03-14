@@ -1,11 +1,9 @@
 import argparse
-import sys
-import os
 import numpy as np
 import torch
-from cocoa_emu import Config, get_lhs_params_list, get_params_list, CocoaModel
+from cocoa_emu import Config
 from cocoa_emu.emulator import NNEmulator
-from cocoa_emu.sampling import EmuSampler
+import emu_tools
 
 from multiprocessing import Pool
 
@@ -83,20 +81,33 @@ dv_w   = np.zeros(N_w)
 
 print("N_xi: %d"%(N_xi))
 
-emu_xi_plus = NNEmulator(config.n_dim, N_xi, config.dv_fid[:N_xi], config.dv_std[:N_xi], config.mask[:N_xi], config.nn_model)
-emu_xi_minus = NNEmulator(config.n_dim, N_xi, config.dv_fid[N_xi:2*N_xi], config.dv_std[N_xi:2*N_xi], config.mask[N_xi:2*N_xi], config.nn_model)
+emu_xi_plus = emu_tools.get_NN_emulator('xi_plus', config)
+emu_xi_minus = emu_tools.get_NN_emulator('xi_minus', config)
+
+emu_ggl = emu_tools.get_NN_emulator('ggl', config)
+emu_w = emu_tools.get_NN_emulator('w', config)
 
 print("=======================================")
 print("Training xi_plus emulator....")
 emu_xi_plus.train(torch.Tensor(train_samples), torch.Tensor(train_data_vectors[:,:N_xi]),\
             batch_size=config.batch_size, n_epochs=config.n_epochs)
 print("=======================================")
-print("=======================================")
 print("Training xi_minus emulator....")
 emu_xi_minus.train(torch.Tensor(train_samples), torch.Tensor(train_data_vectors[:,N_xi:2*N_xi]),\
             batch_size=config.batch_size, n_epochs=config.n_epochs)
 print("=======================================")
+print("Training ggl emulator....")
+emu_ggl.train(torch.Tensor(train_samples), torch.Tensor(train_data_vectors[:,2*N_xi:2*N_xi+N_ggl]),\
+            batch_size=config.batch_size, n_epochs=config.n_epochs)
+
+print("=======================================")
+print("Training w emulator....")
+emu_w.train(torch.Tensor(train_samples), torch.Tensor(train_data_vectors[:,2*N_xi+N_ggl:]),\
+            batch_size=config.batch_size, n_epochs=config.n_epochs)
 
 
-emu_xi_plus.save(config.savedir + '/xi_p_%d'%(n))
-emu_xi_minus.save(config.savedir + '/xi_m_%d'%(n))
+emu_xi_plus.save(config.emudir + '/xi_p_%d'%(n))
+emu_xi_minus.save(config.emudir + '/xi_m_%d'%(n))
+
+emu_ggl.save(config.emudir + '/ggl_%d'%(n))
+emu_w.save(config.emudir + '/w_%d'%(n))
