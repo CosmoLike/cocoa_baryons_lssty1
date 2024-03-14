@@ -1,11 +1,8 @@
 import argparse
-import sys
-import os
 import numpy as np
 import torch
-from cocoa_emu import Config, get_lhs_params_list, get_params_list, CocoaModel
+from cocoa_emu import Config
 from cocoa_emu.emulator import NNEmulator
-from cocoa_emu.sampling import EmuSampler
 
 from multiprocessing import Pool
 
@@ -44,7 +41,7 @@ config = Config(configfile)
 
 train_samples      = np.load(config.savedir + '/train_samples_%d.npy'%(n))
 train_data_vectors = np.load(config.savedir + '/train_data_vectors_%d.npy'%(n))
-    
+
 #=================================================
 
 def get_chi_sq_cut(train_data_vectors):

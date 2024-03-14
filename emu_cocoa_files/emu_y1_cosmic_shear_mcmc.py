@@ -4,7 +4,7 @@ import sys
 import os
 import numpy as np
 import torch
-from cocoa_emu import Config, get_lhs_params_list, get_params_list, CocoaModel
+from cocoa_emu import Config
 from cocoa_emu.emulator import NNEmulator
 from cocoa_emu.sampling import EmuSampler
 
