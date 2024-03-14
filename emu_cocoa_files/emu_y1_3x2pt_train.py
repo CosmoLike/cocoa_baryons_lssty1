@@ -12,27 +12,11 @@ from multiprocessing import Pool
 parser = argparse.ArgumentParser()
 parser.add_argument('--config', type=str)
 parser.add_argument('-N', type=int)
-parser.add_argument('--temper', type=int)
 
 args = parser.parse_args()
 
 configfile = args.config
 n = int(args.N)
-
-#==============================================
-temper_schedule = [0.02, 0.1, 0.2, 0.4, 0.6, 0.7, 0.9, 0.9]
-
-try:
-    temper = (int(args.temper)==1)
-except:
-    temper = False
-
-if(temper):
-    temper_val = temper_schedule[n]
-else:
-    temper_val = 1.
-
-print("temper_val: %2.3f"%(temper_val))
 
 #==============================================
 
