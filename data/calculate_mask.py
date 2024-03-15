@@ -6,9 +6,11 @@ import math as mt
 #VM code adapted from Supranta's Python script
 ggl_efficiency_cut = [0.05]
 
+probe = '3x2pt'
+
 #VM INPUT BEGINS ---------------------------------------------------------------
 for Year in [1]:
-  for mask_choice in [1,2,3,4,5,6]:
+  for mask_choice in [1,2]:
     if (mask_choice == 1):
       # LSST_YX_M1.mask  (lmax = 3000) on CS -----------------------------------
       # lmax \times \theta_min corresponds to the first zero of the Bessel 𝐽0/4
@@ -20,29 +22,9 @@ for Year in [1]:
       gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
     elif (mask_choice == 2):
       # LSST_YX_M2.mask  -----------------------------------
-      ξp_CUTOFF = 5.512  # cutoff scale in arcminutes
-      ξm_CUTOFF = 17.391 # cutoff scale in arcminutes
+      ξp_CUTOFF = 2.5     # cutoff scale in arcminutes
+      ξm_CUTOFF = 2.5     # cutoff scale in arcminutes
       gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
-    elif (mask_choice == 3):
-      # LSST_YX_M3.mask  ------------------------------------
-      ξp_CUTOFF = 11.024  # cutoff scale in arcminutes
-      ξm_CUTOFF = 34.782 # cutoff scale in arcminutes
-      gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
-    elif (mask_choice == 4):
-      # LSST_YX_M3.mask  ------------------------------------
-      ξp_CUTOFF = 22.048 # cutoff scale in arcminutes
-      ξm_CUTOFF = 69.564 # cutoff scale in arcminutes
-      gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
-    elif (mask_choice == 5):
-      # LSST_YX_M3.mask  ------------------------------------
-      ξp_CUTOFF = 44.096  # cutoff scale in arcminutes
-      ξm_CUTOFF = 139.128 # cutoff scale in arcminutes
-      gc_CUTOFF = 21      # Galaxy clustering cutoff in Mpc/h
-    elif (mask_choice == 6):
-      # LSST_YX_M6.mask  all ones ---------------------------------------------
-      ξp_CUTOFF = 0 # cutoff scale in arcminutes
-      ξm_CUTOFF = 0 # cutoff scale in arcminutes
-      gc_CUTOFF = 0 # Galaxy clustering cutoff in Mpc/h
     #VM INPUT ENDS -------------------------------------------------------------
 
     #VM GLOBAL VARIABLES -------------------------------------------------------
@@ -95,28 +77,34 @@ for Year in [1]:
         [0.0000000000,0.0000024903,0.0025740396,0.1465300465,0.8300740215]
       ]
 
-    γt_mask = [] 
+    γt_mask = []
     if (Year == 1):
-      for i in range(N_LENS): 
-        for j in range(N_SRC):
-          # if ggl_efficiency[i][j] > ggl_efficiency_cut[0]:
-            # γt_mask.append((theta[:-1] > ang_cut(zavg[i])))
-          # else:
-          ### Mask all GGL
-          γt_mask.append(np.zeros(N_ANG_BINS))
+        for i in range(N_LENS): 
+            for j in range(N_SRC):
+                if probe=='cosmic_shear':
+                    γt_mask.append(np.zeros(N_ANG_BINS))
+                    continue
+
+                if ggl_efficiency[i][j] > ggl_efficiency_cut[0]:
+                    γt_mask.append((theta[:-1] > ang_cut(zavg[i])))
+                else:
+                ### Mask all GGL
+                    γt_mask.append(np.zeros(N_ANG_BINS))
     γt_mask = np.hstack(γt_mask) 
 
     #VM w_theta mask -----------------------------------------------------------
     ## Mask all w_theta
-    # w_mask = np.hstack([(theta[:-1] > ang_cut(zavg[i])) for i in range(N_LENS)])
-    w_mask = np.hstack([(theta[:-1] < 0) for i in range(N_LENS)])
+    if probe=='cosmic_shear':
+        w_mask = np.hstack([(theta[:-1] < 0) for i in range(N_LENS)])
+    
+    else:
+        w_mask = np.hstack([(theta[:-1] > ang_cut(zavg[i])) for i in range(N_LENS)])
 
     #VM output -----------------------------------------------------------------
     mask = np.hstack([ξp_mask, ξm_mask, γt_mask, w_mask])
     if (Year == 1):
-      np.savetxt("masks/LSST_Y" + str(Year) + "_M" + str(mask_choice) +
-        "_cosmic_shear"+ ".mask", 
-        np.column_stack((np.arange(0,len(mask)), mask)),
-        fmt='%d %1.1f')
+        np.savetxt("masks/LSST_Y" + str(Year) + "_M" + str(mask_choice) +
+        f"_{probe}"+ ".mask", 
+        np.column_stack((np.arange(0,len(mask)), mask)), fmt='%d %1.1f')
 
 
