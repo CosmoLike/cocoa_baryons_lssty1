@@ -63,7 +63,7 @@ if(n==0):
     lhs_params = comm.bcast(lhs_params, root=0)
     params_list = lhs_params
 else:
-    next_training_samples = np.load(config.savedir + '/train_samples_%d.npy'%(n))
+    next_training_samples = np.load(config.emudir + '/train_samples_%d.npy'%(n))
     params_list = get_params_list(next_training_samples, config.param_labels)
     
 current_iter_samples, current_iter_data_vectors = get_data_vectors(params_list, comm, rank)    
@@ -92,8 +92,8 @@ if(rank==0):
     train_data_vectors = train_data_vectors[select_chi_sq]
     train_samples      = train_samples[select_chi_sq]
     # ========================================================
-    np.save(config.savedir + '/train_data_vectors_%d.npy'%(n), train_data_vectors)
-    np.save(config.savedir + '/train_samples_%d.npy'%(n), train_samples)
+    np.save(config.emudir + '/train_data_vectors_%d.npy'%(n), train_data_vectors)
+    np.save(config.emudir + '/train_samples_%d.npy'%(n), train_samples)
     # ======================================================== 
     
 MPI.Finalize
