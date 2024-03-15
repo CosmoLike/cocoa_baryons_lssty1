@@ -44,11 +44,21 @@ def get_example_evaluate(flag_theory, flag_create_pca, SCENARIO_NAME, ARGS, HALO
     override['H0'] = cosmo['H0']
     override['omegab'] = cosmo['omegab']
     override['omegam'] = cosmo['omegam']
+    override['LSST_B1_1'] = 1.24
+    override['LSST_B1_2'] = 1.36
+    override['LSST_B1_3'] = 1.47
+    override['LSST_B1_4'] = 1.60
+    override['LSST_B1_5'] = 1.76
     override['LSST_DZ_S1'] = 0.0
     override['LSST_DZ_S2'] = 0.0
     override['LSST_DZ_S3'] = 0.0
     override['LSST_DZ_S4'] = 0.0
     override['LSST_DZ_S5'] = 0.0
+    override['LSST_DZ_L1'] = 0.0
+    override['LSST_DZ_L2'] = 0.0
+    override['LSST_DZ_L3'] = 0.0
+    override['LSST_DZ_L4'] = 0.0
+    override['LSST_DZ_L5'] = 0.0
     override['LSST_M1'] = 0.0
     override['LSST_M2'] = 0.0
     override['LSST_M3'] = 0.0
@@ -73,7 +83,7 @@ sims = [f'Magneticum_C{i}' for i in range(1,16) if i!=8]
 sims += ['Magneticum_WMAP7']
 
 for sim in sims:
-    flag_theory = False
+    flag_theory = True # False for theory; True for contaminated DV
     flag_create_pca = False
     SCENARIO_NAME = sim
     ARGS = ''
