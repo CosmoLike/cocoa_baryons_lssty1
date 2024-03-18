@@ -24,8 +24,8 @@ config = Config(configfile)
 
 #==============================================
 
-train_samples      = np.load(config.savedir + '/train_samples_%d.npy'%(n))
-train_data_vectors = np.load(config.savedir + '/train_data_vectors_%d.npy'%(n))
+train_samples      = np.load(config.emudir + '/train_samples_%d.npy'%(n))
+train_data_vectors = np.load(config.emudir + '/train_data_vectors_%d.npy'%(n))
 
 #=================================================
 
