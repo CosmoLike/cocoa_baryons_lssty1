@@ -13,6 +13,7 @@ class Config:
         
         self.probe = self.config_args_emu['probe']
         self.savedir   = self.config_args_emu['io']['savedir']
+        self.emudir = self.config_args_emu['io']['emudir']
         try:
             self.chainname = self.config_args_emu['io']['chainname']
         except:
