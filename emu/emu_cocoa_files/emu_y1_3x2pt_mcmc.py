@@ -63,6 +63,10 @@ print("=======================================")
 print("Loading xi_plus and xi_minus emulator....")
 emu_xi_plus.load(config.emudir + '/xi_p_%d'%(n))
 emu_xi_minus.load(config.emudir + '/xi_m_%d'%(n))
+
+print("Loading ggl and w emulator....")
+emu_ggl.load(config.emudir + '/ggl_%d'%(n))
+emu_w.load(config.emudir + '/w_%d'%(n))
 #==============================================
 os.environ["OMP_NUM_THREADS"] = "1"
 
@@ -78,28 +82,31 @@ def compute_datavector(theta, emu):
     datavector = emu.predict(theta)[0]        
     return datavector
     
-# def get_data_vector_emu(theta):
-#     theta_emu   = theta[:-self.n_fast_pars]
+def get_data_vector_emu(theta):
+    theta_emu     = theta[:-self.n_fast_pars]
+    dv_xi_plus  = compute_datavector(theta_emu, emu_xi_plus)
+    dv_xi_minus = compute_datavector(theta_emu, emu_xi_minus)
     
-#     dv_xi_plus  = compute_datavector(theta_emu, emu_xi_plus)
-#     dv_xi_minus = compute_datavector(theta_emu, emu_xi_minus)
-    
-#     dv_ggl = compute_datavector(theta_emu, emu_ggl)
-#     dv_w   = compute_datavector(theta_emu, emu_w)
+    dv_ggl = compute_datavector(theta_emu, emu_ggl)
+    dv_w   = compute_datavector(theta_emu, emu_w)
 
-#     datavector  = np.hstack([dv_xi_plus, dv_xi_minus, dv_ggl, dv_w])
-#     # ============== Add shear calibration bias ======================
-#     m_shear_theta = theta[self.n_sample_dims-(self.n_pcas_baryon + self.source_ntomo):
-#                           self.n_sample_dims-(self.n_pcas_baryon)]
-#     datavector  = self.add_shear_calib(m_shear_theta, datavector)
-#     # ============== Add baryons ======================
-#     if(self.n_pcas_baryon > 0.):
-#         baryon_Q    = theta[self.n_sample_dims-self.n_pcas_baryon:]
-#         datavector  = self.add_baryon_q(baryon_Q, datavector)    
-#     return datavector
+    datavector = np.hstack([dv_xi_plus, dv_xi_minus, dv_ggl, dv_w])
+    if self.probe!='cosmic_shear':
+        bias_theta = theta[self.n_sample_dims-(self.n_pcas_baryon + self.source_ntomo + self.lens_ntomo):
+                                  self.n_sample_dims-(self.n_pcas_baryon + self.source_ntomo)]
+        if not self.block_bias:
+            datavector = self.add_bias(bias_theta, datavector)        
+            m_shear_theta = theta[self.n_sample_dims-(self.n_pcas_baryon + self.source_ntomo):
+                              self.n_sample_dims-self.n_pcas_baryon]
+    if not self.block_shear_calib:
+            datavector = self.add_shear_calib(m_shear_theta, datavector)
+    if(self.n_pcas_baryon > 0):
+            baryon_q   = theta[-self.n_pcas_baryon:]
+            datavector = self.add_baryon_q(baryon_q, datavector)
+    return datavector
 
 def ln_lkl(theta):
-    model_datavector = self.get_data_vector_emu(theta)
+    model_datavector = get_data_vector_emu(theta)
     delta_dv = (model_datavector - emu_sampler.dv_obs)[emu_sampler.mask]
     return -0.5 * delta_dv @ emu_sampler.masked_inv_cov @ delta_dv        
 
