@@ -274,54 +274,19 @@ params:
   # ------------------------------------------------------------------------
   # Galaxy bias
   LSST_B1_1:
-    prior:
-      min: 0.8
-      max: 3
-    ref:
-      dist: norm
-      loc: 1.24
-      scale: 0.15
-    proposal: 0.1
+    value: 1.24
     latex: b_\mathrm{1-LSST}^1
   LSST_B1_2:
-    prior:
-      min: 0.8
-      max: 3
-    ref:
-      dist: norm
-      loc: 1.36
-      scale: 0.15
-    proposal: 0.1
+    value: 1.36
     latex: b_\mathrm{1-LSST}^2
   LSST_B1_3:
-    prior:
-      min: 0.8
-      max: 3
-    ref:
-      dist: norm
-      loc: 1.47
-      scale: 0.15
-    proposal: 0.1
+    value: 1.47
     latex: b_\mathrm{1-LSST}^3
   LSST_B1_4:
-    prior:
-      min: 0.8
-      max: 3
-    ref:
-      dist: norm
-      loc: 1.6
-      scale: 0.15
-    proposal: 0.1
+    value: 1.60
     latex: b_\mathrm{1-LSST}^4
   LSST_B1_5:
-    prior:
-      min: 0.8
-      max: 3
-    ref:
-      dist: norm
-      loc: 1.76
-      scale: 0.1
-    proposal: 0.1
+    value: 1.76
     latex: b_\mathrm{1-LSST}^5
   # ------------------------------------------------------------------------
   # ------------------------------------------------------------------------
