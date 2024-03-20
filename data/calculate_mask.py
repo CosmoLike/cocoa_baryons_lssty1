@@ -12,6 +12,13 @@ probe = '3x2pt'
 for Year in [1]:
   for mask_choice in [1,2,3,4]:
     if (mask_choice == 1):
+      # corresponds to lmax= 10,000 (for xim)
+      # LSST_YX_M2.mask  -----------------------------------
+      ξp_CUTOFF = 2.5     # cutoff scale in arcminutes
+      ξm_CUTOFF = 2.5     # cutoff scale in arcminutes
+      gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
+
+    elif (mask_choice == 2):
       # LSST_YX_M1.mask  (lmax = 3000) on CS -----------------------------------
       # lmax \times \theta_min corresponds to the first zero of the Bessel 𝐽0/4
       # lmax x theta_min corresponds to the first zero of the Bessel 𝐽0/4
@@ -20,24 +27,19 @@ for Year in [1]:
       ξp_CUTOFF = 2.756  # cutoff scale in arcminutes
       ξm_CUTOFF = 8.6955 # cutoff scale in arcminutes
       gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
-    elif (mask_choice == 2):
-      # corresponds to lmax= 10,000 (for xim)
-      # LSST_YX_M2.mask  -----------------------------------
-      ξp_CUTOFF = 2.5     # cutoff scale in arcminutes
-      ξm_CUTOFF = 2.5     # cutoff scale in arcminutes
-      gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
-    elif (mask_choice == 3):
-      # corresponds to lmax=1500
-      # LSST_YX_M2.mask  -----------------------------------
-      ξp_CUTOFF = 5.51139     # cutoff scale in arcminutes
-      ξm_CUTOFF = 17.39110     # cutoff scale in arcminutes
-      gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
     
-    elif (mask_choice == 4):
+    elif (mask_choice == 3):
       # corresponds to lmax=2000
       # LSST_YX_M2.mask  -----------------------------------
       ξp_CUTOFF = 4.1335467     # cutoff scale in arcminutes
       ξm_CUTOFF = 13.0433269     # cutoff scale in arcminutes
+      gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
+
+    elif (mask_choice == 4):
+      # corresponds to lmax=1500
+      # LSST_YX_M2.mask  -----------------------------------
+      ξp_CUTOFF = 5.51139     # cutoff scale in arcminutes
+      ξm_CUTOFF = 17.39110     # cutoff scale in arcminutes
       gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
     #VM INPUT ENDS -------------------------------------------------------------
 
