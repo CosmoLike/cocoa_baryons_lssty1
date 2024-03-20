@@ -64,7 +64,7 @@ params:
     latex: \Omega_\mathrm{b} h^2
   omegam:
     prior:
-      min: 0.1
+      min: 0.05
       max: 0.9
     ref:
       dist: norm
@@ -98,7 +98,7 @@ params:
     derived: 'lambda omegabh2, H0: omegabh2/(H0/100)**2'
     latex: \Omega_\mathrm{b}
   omegach2:
-    value: 'lambda omegam, omegab, mnu, H0: (omegam-omegab)*(H0/100)**2-(mnu*(3.046/3)**0.75)/94.0708'
+    value: 'lambda omegam, omegabh2, mnu, H0: omegam*(H0/100)**2 - omegabh2 - (mnu*(3.046/3)**0.75)/94.0708'
     latex: \Omega_\mathrm{c} h^2
   wa:
     value: 'lambda w0pwa, w: w0pwa - w'
@@ -361,7 +361,7 @@ theory:
     use_renames: True
     extra_args:
       halofit_version: takahashi
-      AccuracyBoost: 1.15
+      AccuracyBoost: 1.1
       lens_potential_accuracy: 1.0
       num_massive_neutrinos: 1
       nnu: 3.046
