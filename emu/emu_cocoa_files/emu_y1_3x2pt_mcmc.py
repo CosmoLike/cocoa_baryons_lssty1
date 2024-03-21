@@ -1,15 +1,16 @@
 import argparse
-import sys
-import os
+import emcee
 import numpy as np
+import os
+from schwimmbad import MPIPool
+import sys
 import torch
+
 from cocoa_emu import Config
 from cocoa_emu.emulator import NNEmulator
 from cocoa_emu.sampling import EmuSampler
 import emu_tools
 
-import emcee
-from schwimmbad import MPIPool
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--config', type=str)
@@ -41,14 +42,9 @@ config = Config(configfile)
 
 #==============================================
 #==============================================
-N_Z_BINS = 5
-N_angular_bins = 26
-
-ggl_exclude = []
-
-N_xi  = int((N_Z_BINS * (N_Z_BINS + 1)) // 2 * N_angular_bins)
-N_ggl = int((N_Z_BINS * N_Z_BINS - len(ggl_exclude)) * N_angular_bins)
-N_w   = int(N_Z_BINS * N_angular_bins)
+N_xi  = emu_tools.N_xi
+N_ggl = emu_tools.N_ggl
+N_w   = emu_tools.N_w
 
 
 print("N_xi: %d"%(N_xi))

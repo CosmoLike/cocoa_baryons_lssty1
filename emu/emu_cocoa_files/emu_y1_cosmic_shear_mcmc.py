@@ -1,15 +1,18 @@
 
 import argparse
-import sys
-import os
+import emcee
 import numpy as np
+import os
+from schwimmbad import MPIPool
+import sys
 import torch
+
 from cocoa_emu import Config
 from cocoa_emu.emulator import NNEmulator
 from cocoa_emu.sampling import EmuSampler
+import emu_tools
 
-import emcee
-from schwimmbad import MPIPool
+from emu_tools import N_xi, N_ggl
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--config', type=str)
@@ -41,22 +44,17 @@ config = Config(configfile)
 
 #==============================================
 #==============================================
-N_Z_BINS = 5
-N_angular_bins = 26
-
-ggl_exclude = []
-
-N_xi  = int((N_Z_BINS * (N_Z_BINS + 1)) // 2 * N_angular_bins)
-N_ggl = int((N_Z_BINS * N_Z_BINS - len(ggl_exclude)) * N_angular_bins)
-N_w   = int(N_Z_BINS * N_angular_bins)
+N_xi  = emu_tools.N_xi
+N_ggl = emu_tools.N_ggl
+N_w   = emu_tools.N_w
 
 dv_ggl = np.zeros(N_ggl)
 dv_w   = np.zeros(N_w)
 
 print("N_xi: %d"%(N_xi))
 
-emu_xi_plus = NNEmulator(config.n_dim, N_xi, config.dv_fid[:N_xi], config.dv_std[:N_xi], config.mask[:N_xi], config.nn_model)
-emu_xi_minus = NNEmulator(config.n_dim, N_xi, config.dv_fid[N_xi:2*N_xi], config.dv_std[N_xi:2*N_xi], config.mask[N_xi:2*N_xi], config.nn_model)
+emu_xi_plus = emu_tools.get_NN_emulator('xi_plus', config)
+emu_xi_minus = emu_tools.get_NN_emulator('xi_minus', config)
 print("=======================================")
 print("Loading xi_plus and xi_minus emulator....")
 emu_xi_plus.load(config.emudir + '/xi_p_%d'%(n))
