@@ -6,11 +6,11 @@ class Config:
     def __init__(self, configfile):
         with open(configfile, "r") as stream:
             config_args = yaml.safe_load(stream)
-        
+
         self.config_args_emu = config_args['emulator'] 
         self.params          = config_args['params'] 
         config_args_lkl = config_args['likelihood']
-        
+
         self.probe = self.config_args_emu['probe']
         self.savedir   = self.config_args_emu['io']['savedir']
         self.emudir = self.config_args_emu['io']['emudir']
@@ -35,7 +35,7 @@ class Config:
             self.chi_sq_cut    = float(self.config_args_emu['training']['chi_sq_cut'])
         except:
             self.chi_sq_cut = 1e+5
-        
+
         self.dv_fid_path   = self.config_args_emu['training']['dv_fid']
         self.n_lhs         = int(self.config_args_emu['training']['n_lhs'])
         self.n_train_iter  = int(self.config_args_emu['training']['n_train_iter'])
@@ -52,9 +52,9 @@ class Config:
                 self.nn_model  = 0
         elif(self.emu_type.lower()=='gp'):
             self.gp_resample   = int(self.config_args_emu['training']['gp_resample'])
-                        
+
         self.config_data(config_args_lkl)
-        
+
         self.n_emcee_walkers = int(self.config_args_emu['sampling']['n_emcee_walkers'])
         self.n_mcmc          = int(self.config_args_emu['sampling']['n_mcmc'])
         self.n_burn_in       = int(self.config_args_emu['sampling']['n_burn_in'])
@@ -64,7 +64,7 @@ class Config:
         
         self.lhs_minmax    = self.get_lhs_minmax()
         self.n_dim         = len(self.lhs_minmax)
-        
+
         self.param_labels = list(self.lhs_minmax.keys())
         try:
             self.block_bias        = self.config_args_emu['sampling']['params_blocking']['block_bias']
@@ -96,7 +96,7 @@ class Config:
         except:
             self.test_sample_file = None
             self.test_output_file = None
-        
+
     def config_data(self, config_args_lkl):
         self.likelihood      = list(config_args_lkl.keys())[0]
         self.config_args_lkl = config_args_lkl[self.likelihood]
@@ -119,10 +119,10 @@ class Config:
                 if self.probe != 'cosmic_shear':
                     if(split_line[0]=='lens_ntomo'):
                         self.lens_ntomo = int(split_line[-1])
-        
+
         try:
             self.baryon_pcas = np.loadtxt(baryon_pca_file)
-        except:
+        except FileNotFoundError:
             self.baryon_pcas = None
         self.mask        = np.loadtxt(self.config_args_emu['sampling']['scalecut_mask'])[:,1].astype(bool)
         self.mask_ones   = np.loadtxt(self.mask_ones_path)[:,1].astype(bool)
@@ -130,18 +130,18 @@ class Config:
         self.dv_obs      = np.loadtxt(self.dv_obs_path)[:,1]
         self.output_dims = len(self.dv_obs)
         self.shear_calib_mask = np.load(self.config_args_emu['shear_calib']['mask'])
-        
+
         if self.probe != 'cosmic_shear':
             self.galaxy_bias_mask = np.load(self.config_args_emu['galaxy_bias']['mask'])
             self.n_fast_pars = self.n_pcas_baryon + self.source_ntomo + self.lens_ntomo
         else:
             self.n_fast_pars = self.n_pcas_baryon + self.source_ntomo
-        
+
         assert len(self.dv_obs)==len(self.dv_fid),"Observed data vector is of different size compared to the fiducial data vector."
         self.cov            = self.get_full_cov(cov_file)
         self.dv_std         = np.sqrt(np.diagonal(self.cov))
         self.masked_inv_cov = np.linalg.inv(self.cov[self.mask][:,self.mask])
-        
+
     def get_lhs_minmax(self):
         lh_minmax = {}
         for x in self.params:
@@ -157,13 +157,13 @@ class Config:
                     lh_max = prior['max']
                 lh_minmax[x] = {'min': lh_min, 'max': lh_max}
         return lh_minmax
-    
+
     def get_full_cov(self, cov_file):
         print("Getting covariance...")
         full_cov = np.loadtxt(cov_file)
         cov = np.zeros((self.output_dims, self.output_dims))
         cov_scenario = full_cov.shape[1]
-        
+
         for line in full_cov:
             i = int(line[0])
             j = int(line[1])
@@ -179,5 +179,3 @@ class Config:
             cov[j,i] = cov_ij
 
         return cov
-    
-    
