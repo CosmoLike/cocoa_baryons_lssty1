@@ -1,18 +1,15 @@
 from cocoa_emu.emulator import NNEmulator
 
+N_Z_BINS = 5
+N_angular_bins = 26
+
+ggl_exclude = []
+
+N_xi  = int((N_Z_BINS * (N_Z_BINS + 1)) // 2 * N_angular_bins)
+N_ggl = int((N_Z_BINS * N_Z_BINS - len(ggl_exclude)) * N_angular_bins)
+N_w   = int(N_Z_BINS * N_angular_bins)
+
 def get_NN_emulator(probe, config):
-    N_Z_BINS = 5
-    N_angular_bins = 26
-
-    ggl_exclude = []
-
-    N_xi  = int((N_Z_BINS * (N_Z_BINS + 1)) // 2 * N_angular_bins)
-    N_ggl = int((N_Z_BINS * N_Z_BINS - len(ggl_exclude)) * N_angular_bins)
-    N_w   = int(N_Z_BINS * N_angular_bins)
-
-
-
-
     if probe=='xi_plus':
         return  NNEmulator(config.n_dim, N_xi, config.dv_fid[:N_xi], config.dv_std[:N_xi], config.mask[:N_xi], config.nn_model)
     
