@@ -215,19 +215,59 @@ params:
     latex: A_\mathrm{1-IA,LSST}^2
   # Shear calibration parameters
   LSST_M1:
-    value: 0.0
+    prior:
+      dist: norm
+      loc: 0.0
+      scale: 0.005
+    ref:
+      dist: norm
+      loc: 0.0
+      scale: 0.005
+    proposal: 0.005
     latex: m_\mathrm{LSST}^1
   LSST_M2:
-    value: 0.0
+    prior:
+      dist: norm
+      loc: 0.0
+      scale: 0.005
+    ref:
+      dist: norm
+      loc: 0.0
+      scale: 0.005
+    proposal: 0.005
     latex: m_\mathrm{LSST}^2
   LSST_M3:
-    value: 0.0
+    prior:
+      dist: norm
+      loc: 0.0
+      scale: 0.005
+    ref:
+      dist: norm
+      loc: 0.0
+      scale: 0.005
+    proposal: 0.005
     latex: m_\mathrm{LSST}^3
   LSST_M4:
-    value: 0.0
+    prior:
+      dist: norm
+      loc: 0.0
+      scale: 0.005
+    ref:
+      dist: norm
+      loc: 0.0
+      scale: 0.005
+    proposal: 0.005
     latex: m_\mathrm{LSST}^4
   LSST_M5:
-    value: 0.0
+    prior:
+      dist: norm
+      loc: 0.0
+      scale: 0.005
+    ref:
+      dist: norm
+      loc: 0.0
+      scale: 0.005
+    proposal: 0.005
     latex: m_\mathrm{LSST}^5
   # Baryon PCA parameters
   LSST_BARYON_Q1:
@@ -301,7 +341,7 @@ sampler:
     blocking:
       - [1,
           [
-            As_1e9, ns, H0, omegab, omegam, HMCode_logT_AGN
+            As_1e9, ns, H0, omegabh2, omegam, HMCode_logT_AGN
           ]
         ]
       - [6,
