@@ -51,3 +51,15 @@ class CocoaModel:
                 return np.array(data_vector), sigma8
 
         return np.array(data_vector)
+
+    def calculate_sigma8(self, params_values):        
+        likelihood   = self.model.likelihood[self.likelihood]
+        this_camb = self.model.theory['camb'].camb
+        As_1e9, ns, H0, omegabh2, omegam = params_values[:5]
+        h = H0/100
+
+        params = this_camb.set_params(As=As_1e9/1e9, ns=ns, H0=H0, ombh2=omegabh2, omch2=omegam*h**2, WantTransfer=True)
+        results = this_camb.get_results(params)
+        sigma8 = results.get_sigma8_0()
+
+        return np.array(sigma8)
