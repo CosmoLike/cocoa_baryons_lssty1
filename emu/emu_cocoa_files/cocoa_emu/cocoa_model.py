@@ -55,7 +55,11 @@ class CocoaModel:
     def calculate_sigma8(self, params_values):        
         likelihood   = self.model.likelihood[self.likelihood]
         this_camb = self.model.theory['camb'].camb
-        As_1e9, ns, H0, omegabh2, omegam = params_values[:5]
+        As_1e9 = params_values['As_1e9']
+        ns = params_values['ns']
+        H0 = params_values['H0']
+        omegabh2 = params_values['omegabh2']
+        omegam = params_values['omegam']
         h = H0/100
 
         params = this_camb.set_params(As=As_1e9/1e9, ns=ns, H0=H0, ombh2=omegabh2, omch2=omegam*h**2, WantTransfer=True)

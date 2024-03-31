@@ -11,14 +11,6 @@ configfile = sys.argv[1]
 config = Config(configfile)
     
 n = int(sys.argv[2])    
-# ============= LHS samples =================
-from pyDOE import lhs
-
-def get_lhs_samples(N_dim, N_lhs, lhs_minmax):
-    unit_lhs_samples = lhs(N_dim, N_lhs)
-    lhs_params = get_lhs_params_list(unit_lhs_samples, lhs_minmax)
-    return lhs_params
-
 # ================== Calculate data vectors ==========================
 
 cocoa_model = CocoaModel(configfile, config.likelihood)
@@ -57,18 +49,19 @@ print("Iteration: %d"%(n))
 
 next_training_samples = np.load(config.savedir + '/' + config.chainname + '_%d.npy'%(n))
 rng = np.random.default_rng(0)
-idx = rng.choice(next_training_samples.shape[1], size=5000, replace=False)
-params_list = get_params_list(next_training_samples[idx], config.param_labels)
+idx = rng.choice(next_training_samples.shape[0], size=8000, replace=False)
 
-current_iter_samples, current_iter_sigma8s = get_sigma8s(params_list, comm, rank)
+n_params = len(config.param_labels)
+subsamples = next_training_samples[idx]
+params_list = get_params_list(subsamples[:, :n_params], config.param_labels)
+_, current_iter_sigma8s = get_sigma8s(params_list, comm, rank)
 
-train_samples      = current_iter_samples
 train_sigma8s = current_iter_sigma8s
 
 # ================== Train emulator ==========================
 if(rank==0):
     train_sigma8s = np.concatenate(train_sigma8s)
-    new_samples = np.column_stack((train_samples, train_sigma8s))
+    new_samples = np.column_stack((subsamples, train_sigma8s))
     # ========================================================
     np.save(config.savedir + '/new_' + config.chainname + '_%d.npy'%(n), new_samples)
     # ======================================================== 
