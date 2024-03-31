@@ -24,33 +24,42 @@ def get_lhs_samples(N_dim, N_lhs, lhs_minmax):
 cocoa_model = CocoaModel(configfile, config.likelihood)
 
 def get_local_data_vector_list(params_list, rank):
-    train_params_list      = []
+    train_params_list = []
     train_data_vector_list = []
+    train_params_list_w_sigma8 = []
+
     N_samples = len(params_list)
     N_local   = N_samples // size    
     for i in range(rank * N_local, (rank + 1) * N_local):
         params_arr  = np.array(list(params_list[i].values()))
-        data_vector = cocoa_model.calculate_data_vector(params_list[i])
+        data_vector, sigma8val = cocoa_model.calculate_data_vector(params_list[i], return_sigma8=True)
         train_params_list.append(params_arr)
         train_data_vector_list.append(data_vector)
-    return train_params_list, train_data_vector_list
+        train_params_list_w_sigma8.append(np.append(params_arr, sigma8val))
+
+    return train_params_list, train_data_vector_list, train_params_list_w_sigma8
 
 def get_data_vectors(params_list, comm, rank):
-    local_params_list, local_data_vector_list = get_local_data_vector_list(params_list, rank)
+    local_params_list, local_data_vector_list, local_params_list_w_sigma8 = get_local_data_vector_list(params_list, rank)
     if rank!=0:
-        comm.send([local_params_list, local_data_vector_list], dest=0)
+        comm.send([local_params_list, local_data_vector_list, local_params_list_w_sigma8], dest=0)
         train_params       = None
         train_data_vectors = None
+        train_params_w_sigma8 = None
     else:
         data_vector_list = local_data_vector_list
         params_list      = local_params_list
+        params_list_w_sigma8 = local_params_list_w_sigma8
         for source in range(1,size):
-            new_params_list, new_data_vector_list = comm.recv(source=source)
+            new_params_list, new_data_vector_list, new_params_list_w_sigma8 = comm.recv(source=source)
             data_vector_list = data_vector_list + new_data_vector_list
             params_list      = params_list + new_params_list
+            params_list_w_sigma8 = params_list_w_sigma8 + new_params_list_w_sigma8
+
         train_params       = np.vstack(params_list)    
-        train_data_vectors = np.vstack(data_vector_list)        
-    return train_params, train_data_vectors
+        train_data_vectors = np.vstack(data_vector_list)
+        train_params_w_sigma8 = np.vstack(params_list_w_sigma8)
+    return train_params, train_data_vectors, train_params_w_sigma8
 
 
 print("Iteration: %d"%(n))
@@ -65,11 +74,12 @@ if(n==0):
 else:
     next_training_samples = np.load(config.emudir + '/train_samples_%d.npy'%(n))
     params_list = get_params_list(next_training_samples, config.param_labels)
-    
-current_iter_samples, current_iter_data_vectors = get_data_vectors(params_list, comm, rank)    
-    
+
+current_iter_samples, current_iter_data_vectors, current_iter_samples_w_sigma8 = get_data_vectors(params_list, comm, rank)    
+
 train_samples      = current_iter_samples
 train_data_vectors = current_iter_data_vectors
+train_samples_w_sigma8 = current_iter_samples_w_sigma8
 
 # ================== Train emulator ==========================
 if(rank==0):
@@ -91,9 +101,11 @@ if(rank==0):
         
     train_data_vectors = train_data_vectors[select_chi_sq]
     train_samples      = train_samples[select_chi_sq]
+    train_samples_w_sigma8 = train_samples_w_sigma8[select_chi_sq]
     # ========================================================
     np.save(config.emudir + '/train_data_vectors_%d.npy'%(n), train_data_vectors)
     np.save(config.emudir + '/train_samples_%d.npy'%(n), train_samples)
+    np.save(config.emudir + '/train_samples_w_sigma8_%d.npy'%(n), train_samples_w_sigma8)
     # ======================================================== 
     
 MPI.Finalize

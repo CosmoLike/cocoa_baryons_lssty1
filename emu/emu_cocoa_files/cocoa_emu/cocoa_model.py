@@ -30,7 +30,7 @@ class CocoaModel:
         self.model      = get_model(configfile)
         self.likelihood = likelihood
         
-    def calculate_data_vector(self, params_values, baryon_scenario=None):        
+    def calculate_data_vector(self, params_values, baryon_scenario=None, return_sigma8=False):        
         likelihood   = self.model.likelihood[self.likelihood]
         input_params = self.model.parameterization.to_input(params_values)
         self.model.provider.set_current_input_params(input_params)
@@ -44,4 +44,10 @@ class CocoaModel:
             data_vector = likelihood.get_datavector(**input_params)
         else:
             data_vector = likelihood.compute_barion_datavector_masked_reduced_dim(baryon_scenario, **input_params)
+        
+        if return_sigma8:
+                provider = self.model.provider
+                sigma8 = provider.requirement_providers['omegam'].current_state['derived_extra']['sigma8']
+                return np.array(data_vector), sigma8
+
         return np.array(data_vector)
