@@ -4,7 +4,7 @@ stop_at_error: false
 likelihood:
   baryons_lsst_y1.lsst_3x2pt:
     path: ./external_modules/data/baryons_lsst_y1
-    data_file: LSST_Y1_emu_3x2pt_Magneticum_C3_M1.dataset
+    data_file: LSST_Y1_emu_3x2pt_Magneticum_C13_M4.dataset
     create_baryon_pca: false
     use_baryonic_simulations_for_dv_contamination: false
     print_datavector: false
@@ -19,7 +19,7 @@ params:
       max: 10
     ref:
       dist: norm
-      loc: 3.67336
+      loc: 0.9571466
       scale: 0.1
     proposal: 0.1
     latex: 10^9 A_\mathrm{s}
@@ -41,18 +41,18 @@ params:
       max: 91
     ref:
       dist: norm
-      loc: 73.0
+      loc: 67.5
       scale: 2
     proposal: 1
     latex: H_0
   omegabh2:
     prior:
       dist: norm
-      loc: 0.02211535
+      loc: 0.022097812500000005
       scale: 0.0016
     ref:
       dist: norm
-      loc: 0.02211535
+      loc: 0.022097812500000005
       scale: 0.005
     proposal: 0.005
     latex: \Omega_\mathrm{b} h^2
@@ -62,7 +62,7 @@ params:
       max: 0.9
     ref:
       dist: norm
-      loc: 0.2
+      loc: 0.4
       scale: 0.01
     proposal: 0.01
     latex: \Omega_\mathrm{m}
@@ -321,9 +321,9 @@ theory:
 emulator:
   probe: 3x2pt
   io:
-    savedir: ./projects/baryons_lsst_y1/emu/yaml_files/y1_3x2pt/Magneticum_C3/emu_output
-    emudir: /xdisk/timeifler/pranjalrs/baryons_lsst_y1_emu/y1_3x2pt/Magneticum_C3/
-    chainname: chain_M1
+    savedir: ./projects/baryons_lsst_y1/emu/yaml_files/y1_3x2pt/Magneticum_C13/emu_output
+    emudir: /xdisk/timeifler/pranjalrs/baryons_lsst_y1_emu/y1_3x2pt/Magneticum_C13/
+    chainname: chain_M4
     save_train_data: true
     save_intermediate_model: true
   shear_calib:
@@ -341,7 +341,7 @@ emulator:
   training:
     emu_type: nn
     nn_model: 0
-    dv_fid: ./projects/baryons_lsst_y1/data/data_vector/lsst_y1_theory_Magneticum_C3.modelvector
+    dv_fid: ./projects/baryons_lsst_y1/data/data_vector/lsst_y1_theory_Magneticum_C13.modelvector
     chi_sq_cut: 1e+5
     n_train_iter: 4
     n_lhs: 16000
@@ -349,7 +349,7 @@ emulator:
     batch_size: 80
     n_epochs: 50
   sampling:
-    scalecut_mask: ./projects/baryons_lsst_y1/data/masks/LSST_Y1_3x2pt_M1.mask
+    scalecut_mask: ./projects/baryons_lsst_y1/data/masks/LSST_Y1_3x2pt_M4.mask
     n_mcmc: 40000
     n_emcee_walkers: 100
     n_burn_in: 20000
