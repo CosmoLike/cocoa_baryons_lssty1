@@ -4,7 +4,7 @@ stop_at_error: false
 likelihood:
   baryons_lsst_y1.lsst_cosmic_shear:
     path: ./external_modules/data/baryons_lsst_y1
-    data_file: LSST_Y1_emu_cosmic_shear_Magneticum_WMAP7_M4_hmcode.dataset
+    data_file: LSST_Y1_emu_cosmic_shear_Magneticum_C9_M2_hmcode.dataset
     create_baryon_pca: false
     use_baryonic_simulations_for_dv_contamination: false
     print_datavector: false
@@ -19,7 +19,7 @@ params:
       max: 10
     ref:
       dist: norm
-      loc: 2.266099
+      loc: 1.998046
       scale: 0.1
     proposal: 0.1
     latex: 10^9 A_\mathrm{s}
@@ -41,18 +41,18 @@ params:
       max: 91
     ref:
       dist: norm
-      loc: 70.4
+      loc: 70.7
       scale: 2
     proposal: 1
     latex: H_0
   omegabh2:
     prior:
       dist: norm
-      loc: 0.022600089600000005
+      loc: 0.022993054000000006
       scale: 0.0016
     ref:
       dist: norm
-      loc: 0.022600089600000005
+      loc: 0.022993054000000006
       scale: 0.005
     proposal: 0.005
     latex: \Omega_\mathrm{b} h^2
@@ -62,14 +62,14 @@ params:
       max: 0.9
     ref:
       dist: norm
-      loc: 0.272
+      loc: 0.301
       scale: 0.01
     proposal: 0.01
     latex: \Omega_\mathrm{m}
     drop: true
   HMCode_logT_AGN:
     prior:
-      min: 6
+      min: 7
       max: 9
     ref:
       dist: norm
@@ -246,9 +246,9 @@ theory:
 emulator:
   probe: cosmic_shear
   io:
-    savedir: ./projects/baryons_lsst_y1/emu/yaml_files/y1_cosmic_shear_hmcode/Magneticum_WMAP7/emu_output
-    emudir: /xdisk/timeifler/pranjalrs/baryons_lsst_y1_emu/y1_cosmic_shear_hmcode/Magneticum_WMAP7/
-    chainname: chain_M4
+    savedir: ./projects/baryons_lsst_y1/emu/yaml_files/y1_cosmic_shear_hmcode/Magneticum_C9/emu_output
+    emudir: /xdisk/timeifler/pranjalrs/baryons_lsst_y1_emu/y1_cosmic_shear_hmcode/Magneticum_C9/
+    chainname: chain_M2
     save_train_data: true
     save_intermediate_model: true
   shear_calib:
@@ -263,7 +263,7 @@ emulator:
   training:
     emu_type: nn
     nn_model: 0
-    dv_fid: ./projects/baryons_lsst_y1/data/data_vector/lsst_y1_theory_Magneticum_WMAP7.modelvector
+    dv_fid: ./projects/baryons_lsst_y1/data/data_vector/lsst_y1_theory_Magneticum_C9.modelvector
     chi_sq_cut: 1e+5
     n_train_iter: 4
     n_lhs: 16000
@@ -271,10 +271,10 @@ emulator:
     batch_size: 80
     n_epochs: 50
   sampling:
-    scalecut_mask: ./projects/baryons_lsst_y1/data/masks/LSST_Y1_cosmic_shear_M4.mask
-    n_mcmc: 100000
+    scalecut_mask: ./projects/baryons_lsst_y1/data/masks/LSST_Y1_cosmic_shear_M2.mask
+    n_mcmc: 40000
     n_emcee_walkers: 100
-    n_burn_in: 90000
+    n_burn_in: 20000
     n_thin: 10
     temper0: 0.02
     temper_increment: 0.05
