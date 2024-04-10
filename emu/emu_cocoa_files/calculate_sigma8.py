@@ -49,19 +49,25 @@ print("Iteration: %d"%(n))
 
 next_training_samples = np.load(config.savedir + '/' + config.chainname + '_%d.npy'%(n))
 rng = np.random.default_rng(0)
-idx = rng.choice(next_training_samples.shape[0], size=8000, replace=False)
+idx = rng.choice(next_training_samples.shape[0], size=8080, replace=False)
 
 n_params = len(config.param_labels)
 subsamples = next_training_samples[idx]
 params_list = get_params_list(subsamples[:, :n_params], config.param_labels)
-_, current_iter_sigma8s = get_sigma8s(params_list, comm, rank)
+if config.probe == 'cosmic_shear':
+    n_extra = subsamples.shape[1] - n_params
+    for k, item in enumerate(params_list):
+        for i in range(n_extra):
+            item[f'extra_{i}'] = subsamples[k, n_params + i]
+
+current_iter_samples, current_iter_sigma8s = get_sigma8s(params_list, comm, rank)
 
 train_sigma8s = current_iter_sigma8s
 
 # ================== Train emulator ==========================
 if(rank==0):
     train_sigma8s = np.concatenate(train_sigma8s)
-    new_samples = np.column_stack((subsamples, train_sigma8s))
+    new_samples = np.column_stack((current_iter_samples, train_sigma8s))
     # ========================================================
     np.save(config.savedir + '/new_' + config.chainname + '_%d.npy'%(n), new_samples)
     # ======================================================== 
