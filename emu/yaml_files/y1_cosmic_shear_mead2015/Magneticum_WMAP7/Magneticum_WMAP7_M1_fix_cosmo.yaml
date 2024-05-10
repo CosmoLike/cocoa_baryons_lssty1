@@ -15,8 +15,9 @@ likelihood:
 params:
   As_1e9:
     prior:
-      min: 0.5
-      max: 10
+      loc: 2.266099
+      scale: 0.0001
+      dist: norm
     ref:
       dist: norm
       loc: 2.266099
@@ -27,8 +28,9 @@ params:
     renames: A
   ns:
     prior:
-      min: 0.87
-      max: 1.07
+      loc: 0.963
+      scale: 0.0001
+      dist: norm
     ref:
       dist: norm
       loc: 0.96605
@@ -37,8 +39,9 @@ params:
     latex: n_\mathrm{s}
   H0:
     prior:
-      min: 55
-      max: 91
+      loc: 70.4
+      scale: 0.0001
+      dist: norm
     ref:
       dist: norm
       loc: 70.4
@@ -49,7 +52,7 @@ params:
     prior:
       dist: norm
       loc: 0.022600089600000005
-      scale: 0.0016
+      scale: 0.0001
     ref:
       dist: norm
       loc: 0.022600089600000005
@@ -58,8 +61,9 @@ params:
     latex: \Omega_\mathrm{b} h^2
   omegam:
     prior:
-      min: 0.05
-      max: 0.9
+      loc: 0.272
+      scale: 0.0001
+      dist: norm
     ref:
       dist: norm
       loc: 0.272
@@ -258,7 +262,7 @@ emulator:
   io:
     savedir: ./projects/baryons_lsst_y1/emu/yaml_files/y1_cosmic_shear_mead2015/Magneticum_WMAP7/emu_output
     emudir: /xdisk/timeifler/pranjalrs/baryons_lsst_y1_emu/y1_cosmic_shear_mead2015/Magneticum_WMAP7/
-    chainname: chain_M1
+    chainname: chain_M1_fix_cosmo
     save_train_data: true
     save_intermediate_model: true
   shear_calib:
