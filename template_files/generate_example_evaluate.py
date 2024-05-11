@@ -104,11 +104,17 @@ if use_EE_datavector:
 	sims += ['Magneticum_WMAP7']
 
 else:
-	if HALOFIT_VERSION == 'mead2015':
+	if HALOFIT_VERSION == 'takahashi':
+		arg = '_takahashi'
+
+	elif HALOFIT_VERSION == 'mead2015':
 		arg = '_mead2015'
 
 	elif HALOFIT_VERSION == 'mead2020':
 		arg = '_mead2020'
+
+	else:
+		raise ValueError("Invalid HALOFIT_VERSION")
 
 	sims = [f'Magneticum_C{i}' for i in range(1, 16) if i not in [8]]
 	sims += ['Magneticum_WMAP7']
