@@ -1,5 +1,5 @@
 data_file = lsst_y1_theory.modelvector
-cov_file = cov_lsst_y1
+cov_file = cov_lsst_y1_1arcmin
 mask_file = masks/ones.mask
 nz_lens_file = lens_LSSTY1.nz 
 nz_source_file = source_LSSTY1.nz
@@ -8,6 +8,6 @@ lens_ntomo = 5
 source_ntomo = 5
 n_theta = 26
 IA_model = 4
-theta_min_arcmin = 2.5
+theta_min_arcmin = 1
 theta_max_arcmin = 900.
 baryon_pca_file = pca/pca.txt
