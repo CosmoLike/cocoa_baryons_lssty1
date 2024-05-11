@@ -1,10 +1,11 @@
 import yaml
 from pathlib import Path
+import warnings
 
 import cosmo_dicts
 
 def get_example_evaluate(flag_theory, flag_create_pca, SCENARIO_NAME, filename_arg, HALOFIT_VERSION, cosmo):
-	template_file = yaml.safe_load(Path(f'../example_evaluate/EXAMPLE_EVALUATE_abc_template.yaml').read_text())
+	template_file = yaml.safe_load(Path(f'EXAMPLE_EVALUATE_abc_template.yaml').read_text())
 
 	create_baryon_pca= False
 	if flag_theory is True:
@@ -88,16 +89,18 @@ def get_example_evaluate(flag_theory, flag_create_pca, SCENARIO_NAME, filename_a
 
 
 ## Specify yaml file settings
-FLAG_THEORY = True # False for theory; True for contaminated DV
+FLAG_THEORY = False # False for theory; True for contaminated DV
 FLAG_CREATE_PCA = False
 use_EE_datavector = False
-HALOFIT_VERSION = 'takahashi'
+HALOFIT_VERSION = 'mead2020' #'takahashi'
 
 
 
 #----------------- Don't change anything below this line -----------------#
 if use_EE_datavector:
 	arg = '_EuclidEmu'
+	if HALOFIT_VERSION != 'takahashi':
+		warnings.warn('Using Euclid Emulator; setting halofit version has no effect')
 
 	# Only these cosmologies supported by EuclidEmulator2
 	sims = [f'Magneticum_C{i}' for i in [7, 9, 11, 12]]
