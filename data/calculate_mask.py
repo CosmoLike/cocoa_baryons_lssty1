@@ -6,45 +6,45 @@ import math as mt
 #VM code adapted from Supranta's Python script
 ggl_efficiency_cut = [0.05]
 
-probe = '3x2pt'
+probe = 'cosmic_shear'
 
 #VM INPUT BEGINS ---------------------------------------------------------------
 for Year in [1]:
   for mask_choice in [1,2,3,4]:
+  # lmax \times \theta_min corresponds to the first zero of the Bessel 𝐽0/4
+  # lmax x theta_min corresponds to the first zero of the Bessel 𝐽0/4
+  # J0 first zero is 2.4048, J4 first zero is 7.5883
+  # For theta = 1arc_min, lmax * theta_min = 0.87
     if (mask_choice == 1):
-      # corresponds to lmax= 10,000 (for xim)
-      # LSST_YX_M2.mask  -----------------------------------
-      ξp_CUTOFF = 2.5     # cutoff scale in arcminutes
-      ξm_CUTOFF = 2.5     # cutoff scale in arcminutes
+      # LSST_YX_M1.mask  -----------------------------------
+      ξp_CUTOFF = 1.0     # cutoff scale in arcminutes
+      ξm_CUTOFF = 1.0     # cutoff scale in arcminutes
       gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
 
     elif (mask_choice == 2):
-      # LSST_YX_M1.mask  (lmax = 3000) on CS -----------------------------------
-      # lmax \times \theta_min corresponds to the first zero of the Bessel 𝐽0/4
-      # lmax x theta_min corresponds to the first zero of the Bessel 𝐽0/4
-      # J0 first zero is 2.4048, J4 first zero is 7.5883
-      # For theta = 1arc_min, lmax * theta_min = 0.87
+      # corresponds to lmax=5000
+      # LSST_YX_M2.mask  -----------------------------------
+      ξp_CUTOFF = 1.65341868  # cutoff scale in arcminutes
+      ξm_CUTOFF = 5.21733 # cutoff scale in arcminutes
+      gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
+
+    elif (mask_choice == 3):
+      # LSST_YX_M3.mask  (lmax = 3000) on CS -----------------------------------
       ξp_CUTOFF = 2.756  # cutoff scale in arcminutes
       ξm_CUTOFF = 8.6955 # cutoff scale in arcminutes
       gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
     
     elif (mask_choice == 3):
-      # corresponds to lmax=2000
-      # LSST_YX_M2.mask  -----------------------------------
+      # corresponds to lmax=1500
+      # LSST_YX_M3.mask  -----------------------------------
       ξp_CUTOFF = 4.1335467     # cutoff scale in arcminutes
       ξm_CUTOFF = 13.0433269     # cutoff scale in arcminutes
       gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
 
-    elif (mask_choice == 4):
-      # corresponds to lmax=1500
-      # LSST_YX_M2.mask  -----------------------------------
-      ξp_CUTOFF = 5.51139     # cutoff scale in arcminutes
-      ξm_CUTOFF = 17.39110     # cutoff scale in arcminutes
-      gc_CUTOFF = 21     # Galaxy clustering cutoff in Mpc/h
     #VM INPUT ENDS -------------------------------------------------------------
 
     #VM GLOBAL VARIABLES -------------------------------------------------------
-    THETA_MIN  = 2.5    # Minimum angular scale (in arcminutes)
+    THETA_MIN  = 1    # Minimum angular scale (in arcminutes)
     THETA_MAX  = 900.  # Maximum angular scale (in arcminutes)
     N_ANG_BINS = 26    # Number of angular bins
     N_LENS = 5  # Number of lens tomographic bins
@@ -119,8 +119,8 @@ for Year in [1]:
     #VM output -----------------------------------------------------------------
     mask = np.hstack([ξp_mask, ξm_mask, γt_mask, w_mask])
     if (Year == 1):
-        np.savetxt("masks/LSST_Y" + str(Year) + f"_{probe}" + "_M" + str(mask_choice) +
-         ".mask", 
-        np.column_stack((np.arange(0,len(mask)), mask)), fmt='%d %1.1f')
+        filename = "masks/LSST_Y" + str(Year) + f"_{probe}" + "_M" + str(mask_choice) + ".mask"
+        print('Saving ' + filename + ' ...')
+        np.savetxt(filename, np.column_stack((np.arange(0,len(mask)), mask)), fmt='%d %1.1f')
 
 
