@@ -1,7 +1,7 @@
 timing: true
 debug: false
 stop_at_error: true
-output: ./projects/baryons_lsst_y1/example_evaluate/output_log/LSST_Y1_baryons_Magneticum_C5/EXAMPLE_EVALUATE
+output: ./projects/baryons_lsst_y1/example_evaluate/output_log/LSST_Y1_baryons_Magneticum_C11_EuclidEmu/EXAMPLE_EVALUATE
 likelihood:
   baryons_lsst_y1.lsst_3x2pt:
     path: ./external_modules/data/baryons_lsst_y1
@@ -10,9 +10,9 @@ likelihood:
     baryon_pca_select_simulations: TNG100/HzAGN/mb2/eagle/illustris/owls_AGN_T80/owls_AGN_T85/owls_AGN_T87/BAHAMAS_T76/BAHAMAS_T78/BAHAMAS_T80
     filename_baryon_pca: ''
     use_baryonic_simulations_for_dv_contamination: true
-    which_baryonic_simulations_for_dv_contamination: Magneticum_C5
+    which_baryonic_simulations_for_dv_contamination: Magneticum_C11
     print_datavector: true
-    print_datavector_file: ./projects/baryons_lsst_y1/data/data_vector/lsst_y1_baryons_Magneticum_C5.modelvector
+    print_datavector_file: ./projects/baryons_lsst_y1/data/data_vector/lsst_y1_baryons_Magneticum_C11_EuclidEmu.modelvector
     accuracyboost: 1.0
     integration_accuracy: 0
     kmax_boltzmann: 5.0
@@ -141,11 +141,11 @@ sampler:
   evaluate:
     N: 1
     override:
-      As_1e9: 3.2096052
+      As_1e9: 1.7006128
       ns: 0.963
-      H0: 67.6
-      omegab: 0.0421
-      omegam: 0.222
+      H0: 70.8
+      omegab: 0.0462
+      omegam: 0.342
       LSST_DZ_S1: 0.0
       LSST_DZ_S2: 0.0
       LSST_DZ_S3: 0.0

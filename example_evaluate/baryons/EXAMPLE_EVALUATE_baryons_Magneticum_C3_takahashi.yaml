@@ -1,7 +1,7 @@
 timing: true
 debug: false
 stop_at_error: true
-output: ./projects/baryons_lsst_y1/example_evaluate/output_log/LSST_Y1_baryons_Magneticum_C3/EXAMPLE_EVALUATE
+output: ./projects/baryons_lsst_y1/example_evaluate/output_log/LSST_Y1_baryons_Magneticum_C3_takahashi/EXAMPLE_EVALUATE
 likelihood:
   baryons_lsst_y1.lsst_3x2pt:
     path: ./external_modules/data/baryons_lsst_y1
@@ -12,11 +12,11 @@ likelihood:
     use_baryonic_simulations_for_dv_contamination: true
     which_baryonic_simulations_for_dv_contamination: Magneticum_C3
     print_datavector: true
-    print_datavector_file: ./projects/baryons_lsst_y1/data/data_vector/lsst_y1_baryons_Magneticum_C3.modelvector
+    print_datavector_file: ./projects/baryons_lsst_y1/data/data_vector/lsst_y1_baryons_Magneticum_C3_takahashi.modelvector
     accuracyboost: 1.0
     integration_accuracy: 0
     kmax_boltzmann: 5.0
-    non_linear_emul: 1
+    non_linear_emul: 2
 params:
   As_1e9:
     prior:
